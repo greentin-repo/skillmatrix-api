@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TPMTag" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e2f5b919-d777-44df-949f-c4a73fea3dcd">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="BackgroundStyle">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{tagTypeId}==3]]></conditionExpression>
+			<style backcolor="#FFFF33"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{tagTypeId}==2]]></conditionExpression>
+			<style backcolor="#FFB6C1"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="dataset1" uuid="21270a49-8d6b-43cc-b00a-873dfd40e780"/>
+	<parameter name="tagNumber" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="orgAlies" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="createdDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="deptName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="detector" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="defectName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="linkedLoss" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="targetDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="closedByName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="closedByDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="eqptName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="detectionDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="tagTypeId" class="java.lang.Integer" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<detail>
+		<band height="800" splitType="Stretch">
+			<staticText>
+				<reportElement style="BackgroundStyle" mode="Opaque" x="-20" y="-20" width="595" height="820" uuid="8da60850-3cb7-426b-9310-cea537bc67f7"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="25" width="147" height="35" uuid="08c79aad-3918-4364-bbd0-88120d36bcf0"/>
+				<textElement>
+					<font fontName="SansSerif" size="23" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ T P M]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="25" width="150" height="30" uuid="f9ecd69c-098e-4bac-bbdc-797c8e10b2fc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Maintainence Tag]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="90" width="50" height="30" uuid="c03926f4-c099-48a1-baac-270f9b00d214"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[ Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="55" width="70" height="30" uuid="f9415319-19ef-44c7-9e70-47261d71a9da"/>
+				<textElement verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[ Sr. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="150" width="70" height="30" uuid="e837331c-41c2-4740-b1c5-d5505f57d6f8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ Sr. NO. ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="80" y="180" width="480" height="1" uuid="98def2da-e717-4139-8422-f3bf7c893c5b"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="200" width="157" height="30" uuid="c4df1a32-0d01-4457-871f-d5e2742a2358"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ W.No./DEPT./CELL: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="162" y="230" width="398" height="1" uuid="54f71464-8c1e-4e52-87dd-d2464ac55137"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="240" width="152" height="30" uuid="d9aac803-6aa5-4a80-8a80-e893490e8664"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ MACHINE NO./NAME: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="162" y="270" width="398" height="1" uuid="cf2c2755-d972-4e98-bf62-76f32baf6edb"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="290" width="180" height="30" uuid="9dc1b91e-f66e-4dea-83d3-e749db496cbc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ DATE OF DETECTION: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="190" y="320" width="370" height="1" uuid="fe17fce7-cdd8-413d-a6b8-efd57d47be48"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="330" width="100" height="30" uuid="3b420ad0-ad6e-4d1e-9ca4-6204084e752b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ DETECTOR: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="110" y="360" width="450" height="1" uuid="20bfda3d-9172-43ae-a260-3468a7f78a7a"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="370" width="130" height="30" uuid="979eb077-7ed4-4cf6-8928-aea7d08929c1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ ABNORMALITY: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="140" y="400" width="420" height="1" uuid="5c854f4f-4ee3-49f7-b27c-4ef5a9bb3595"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="450" width="220" height="30" uuid="4a3f293c-8dd4-4bc5-a067-30cea59e7777"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ LINKED WITH WHICH LOSS: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="230" y="480" width="330" height="1" uuid="dfe5964d-58f7-46d3-8453-e3485ff68e02"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="500" width="130" height="30" uuid="56008b65-f6fd-4656-82b7-51ecc19fa6f1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ TARGET DATE: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="140" y="530" width="420" height="1" uuid="ba66c7f7-bd20-48ff-b3a3-1fedbe81e2ba"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="540" width="170" height="30" uuid="b3b7c87a-bf40-4d69-88de-ef4429fd6406"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ CLOSED BY & DATE: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="570" width="380" height="1" uuid="960e24df-37e4-4663-b0dc-fc883ddef467"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="15" y="85" width="230" height="45" uuid="150c4b93-729d-4167-a683-c7062079b5e6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="20" isBold="true" isItalic="true" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orgAlies}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="430" y="55" width="130" height="30" uuid="59839de8-6c7e-4082-9112-171ca3ce2d91"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="18" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tagNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="420" y="90" width="140" height="30" uuid="2ed1ccaf-bf3c-4bf6-8862-aa71217dde4b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{createdDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="80" y="150" width="480" height="30" uuid="97364df9-e1a8-4f42-934f-4c94c6b28aba"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="true" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tagNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="170" y="200" width="390" height="30" uuid="c499338e-269a-44b8-8a3e-becce4ef0703"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{deptName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="170" y="240" width="390" height="30" uuid="44dddcd3-1005-40b9-9780-e4c7e4564d64"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{eqptName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="200" y="290" width="360" height="30" uuid="0cace391-ef5f-4143-9fb0-df1bf33e3349"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{detectionDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="120" y="330" width="440" height="30" uuid="45d4e02c-76bd-40c3-ad0e-472e42691e20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{detector}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="140" y="370" width="420" height="30" uuid="e8742a1b-40f6-46fc-8969-0e4c5fda6c83"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{defectName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="240" y="450" width="320" height="30" uuid="7ed919ab-d0f7-41d9-9d40-c7cbb2ebc051"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{linkedLoss}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="140" y="500" width="420" height="30" uuid="a4c5616e-89bc-4202-8d63-c19cbd652fc3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{targetDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="180" y="540" width="180" height="30" uuid="e9fb10ba-6865-4d98-a4e8-ea75dea555e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{closedByName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="380" y="540" width="180" height="30" uuid="a2dcc07c-8ff5-4a62-8892-37a3e287c6f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Unicode MS" size="14" isBold="false" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{closedByDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="360" y="540" width="20" height="30" uuid="1fa375d9-3459-42d3-a904-5e717152a1e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[ & ]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

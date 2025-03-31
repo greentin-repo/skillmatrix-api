@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="category" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b14fbe55-7cbb-4a03-aea9-a183cca8957a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="suggestionDataSet" uuid="119b7f0e-01ef-4e2b-b628-d76f51e83768">
+		<field name="data" class="java.lang.String"/>
+		<field name="categoryName" class="java.lang.String"/>
+		<field name="value" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="CAT_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="DEPT_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="SUGGESTION_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="BENEFIT_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="MTTI_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="PARTICIPATION_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="DEPTWISE_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="DEPTBYSUGGESTIONS_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="MOTHLY_SUGGESTIONS_PIE_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="IMPLEMENTATION_COST_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="SAVING_COST_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="DEVICE_TYPE_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="SUGPARTEMPLLIST_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="ACTIVE_INACTIVE_USERS_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="SUGGESTION_COUNT_CHART_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="EMP_PARTICIPATION_INDEX_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="EMP_PARTICIPATION_SUGGETION_AVG_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<group name="dummy" isStartNewColumn="true" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA["dummy"]]></groupExpression>
+		<groupFooter>
+			<band height="802" splitType="Stretch">
+				<lineChart>
+					<chart isShowLegend="false" evaluationTime="Report" theme="default">
+						<reportElement x="0" y="40" width="557" height="280" uuid="192ab64c-a498-4ef3-aacf-cdfb77ea10e2">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Mean Time To Implement ( MTTI )"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="87127de0-6108-4b64-9c11-ae33e4b5e08d">
+								<dataSourceExpression><![CDATA[$P{MTTI_CHART_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot>
+						<plot/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Days"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+				<barChart>
+					<chart isShowLegend="false" evaluationTime="Report">
+						<reportElement x="0" y="410" width="557" height="320" printWhenGroupChanges="dummy" uuid="adf011d4-9460-45f8-aa72-c310b68815c8">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Monthly Implementation Cost"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="c34dbf3e-e55e-4df5-880d-03963eb6500a">
+								<dataSourceExpression><![CDATA[$P{IMPLEMENTATION_COST_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.format("%,.0f",$F{value})]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot labelRotation="360.0"/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat labelRotation="360.0">
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Monthly Implementation Cost (INR)"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+			</band>
+			<band height="802">
+				<barChart>
+					<chart isShowLegend="false" evaluationTime="Report">
+						<reportElement x="0" y="20" width="557" height="310" printWhenGroupChanges="dummy" uuid="a20474c5-05e7-4fb5-837a-fde6c9737324">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Monthly Saving"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="ce130f6f-de9c-47a0-9493-0b0b378b12ed">
+								<dataSourceExpression><![CDATA[$P{SAVING_COST_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.format("%,.0f",$F{value})]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Saving (INR)"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<stackedBarChart>
+					<chart evaluationTime="Report">
+						<reportElement x="2" y="390" width="555" height="360" uuid="aa1f608f-19ca-4e33-af05-7f2c0fc3db84">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Benefits"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend>
+							<font size="8"/>
+						</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="66fa7ec3-d181-49e5-bd22-3138f44e0ced">
+								<dataSourceExpression><![CDATA[$P{BENEFIT_CHART_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.valueOf(($F{value}).intValue())]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Suggestions"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+			</band>
+			<band height="802">
+				<stackedBarChart>
+					<chart evaluationTime="Report">
+						<reportElement x="0" y="30" width="555" height="360" uuid="aa1f608f-19ca-4e33-af05-7f2c0fc3db84">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Active Inactive Users"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend>
+							<font size="8"/>
+						</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="66fa7ec3-d181-49e5-bd22-3138f44e0ced">
+								<dataSourceExpression><![CDATA[$P{ACTIVE_INACTIVE_USERS_CHART_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.valueOf(($F{value}).intValue())]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Employees"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</stackedBarChart>
+				<barChart>
+					<chart isShowLegend="false" evaluationTime="Report">
+						<reportElement x="2" y="440" width="553" height="310" printWhenGroupChanges="dummy" uuid="5ea224ef-ac51-4a66-a39f-34683652267f">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Suggestion Count"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="57bbc36f-565a-41aa-8c05-0453caab6b66">
+								<dataSourceExpression><![CDATA[$P{SUGGESTION_COUNT_CHART_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Suggestions"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+			</band>
+			<band height="802">
+				<lineChart>
+					<chart isShowLegend="false" evaluationTime="Report" theme="default">
+						<reportElement x="0" y="40" width="555" height="300" uuid="1d623f28-bc5e-4c21-80e1-8a11fc0a3e0c">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Employee Participation Index"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="c6538515-480b-4ee0-a030-37e845cdd6e5">
+								<dataSourceExpression><![CDATA[$P{EMP_PARTICIPATION_INDEX_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.format("%,.0f",$F{value})]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot>
+						<plot/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Employee Participation (%)"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+				<lineChart>
+					<chart isShowLegend="false" evaluationTime="Report" theme="default">
+						<reportElement x="0" y="420" width="555" height="310" uuid="917aec6a-d16f-40e9-ad1c-696368f63914">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Average Employee Participation"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="dfa54c26-d6a1-41d1-bb05-cee36a9f1385">
+								<dataSourceExpression><![CDATA[$P{EMP_PARTICIPATION_SUGGETION_AVG_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.format("%,.0f",$F{value})]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot>
+						<plot/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Suggetions (Avg)"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>

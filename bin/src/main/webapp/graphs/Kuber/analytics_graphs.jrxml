@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="analytics_graphs" pageWidth="595" pageHeight="1848" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ee49d17d-f134-4843-97e8-64a4c51510c2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="KuberDataSet" uuid="28cbd7b9-eac4-4204-b88e-35644ef306e3">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="data" class="java.lang.String"/>
+		<field name="categoryName" class="java.lang.String"/>
+		<field name="value" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="PROJECT_STATUS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="BENEFITS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="PROJECT_SAVINGS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="PROJECT_EXECUTION_STATUS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="CELL_WISE_PARTICIPATION" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="1808" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="50" width="555" height="241" uuid="d344d2fa-f218-44d6-806e-ce3b4635fe89">
+						<property name="net.sf.jasperreports.chart.range.axis.tick.interval"/>
+					</reportElement>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Status"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="KuberDataSet" uuid="2859f50e-53bb-4b40-85ed-d2ea717aeffc">
+							<dataSourceExpression><![CDATA[$P{PROJECT_STATUS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+						<valueExpression><![CDATA[new BigDecimal($F{value}).setScale(0, BigDecimal.ROUND_CEILING)]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Project Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="360" width="555" height="280" uuid="ee746f82-68e6-4a00-bc7d-5e0da43a24ac"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Benefits"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="KuberDataSet" uuid="c347911c-92c8-4c99-94b4-c7f4813b076b">
+							<dataSourceExpression><![CDATA[$P{BENEFITS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+						<valueExpression><![CDATA[new BigDecimal($F{value}).setScale(0, BigDecimal.ROUND_CEILING)]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Benefit Amount"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="730" width="555" height="250" uuid="a3ed41a6-4c1f-451c-b670-1c9d8dbf5ee4"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Savings"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="KuberDataSet" uuid="aceb34fb-86da-4dde-93f3-20e61ad1e3a8">
+							<dataSourceExpression><![CDATA[$P{PROJECT_SAVINGS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{categoryName}]]></keyExpression>
+					<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					<labelExpression><![CDATA[$F{data}+" : "+String.valueOf(($F{value}.intValue()))]]></labelExpression>
+				</pieDataset>
+				<piePlot isShowLabels="true" isCircular="true" labelFormat="">
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="1060" width="555" height="286" uuid="77477e64-1a1d-4f96-85ac-3970ee162021"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Execution Status At Plant Level"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="KuberDataSet" uuid="637ffcc0-d9a7-4d2f-aee5-75931df77ed0">
+							<dataSourceExpression><![CDATA[$P{PROJECT_EXECUTION_STATUS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+						<valueExpression><![CDATA[new BigDecimal($F{value}).setScale(0, BigDecimal.ROUND_CEILING)]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Project Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" tickLabelMask="#" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="1460" width="555" height="310" uuid="f664778b-8c35-455a-a909-1ac5a9e986c4"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Cell Wise Participation"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="KuberDataSet" uuid="44467729-ad25-4e79-a09a-f7450266fd22">
+							<dataSourceExpression><![CDATA[$P{CELL_WISE_PARTICIPATION}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{categoryName}]]></keyExpression>
+					<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					<labelExpression><![CDATA[$F{categoryName}+" : "+String.valueOf(($F{value}.intValue())) + " %"]]></labelExpression>
+				</pieDataset>
+				<piePlot isShowLabels="true" isCircular="true" labelFormat="">
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="480" width="560" height="280" uuid="ca6e9188-195c-4ec7-b0c5-3a73076bf19c"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Count Across Plants"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="KuberDataset" uuid="83a1865c-cf54-4116-81a1-ff6d2b491384">
+							<dataSourceExpression><![CDATA[$P{ORG_LVL_PROJ_COUNT_ACROSS_PLANTS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						<labelExpression><![CDATA[$F{data}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

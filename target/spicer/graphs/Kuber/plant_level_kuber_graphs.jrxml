@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="plant_level_kuber_reports" pageWidth="595" pageHeight="3100" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba69fe9d-a798-4c65-9a1b-c4f0625373a7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="plantLvlKuberDataset" uuid="68edc328-a139-4402-887d-b7b74b53393f">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="data" class="java.lang.String"/>
+		<field name="value" class="java.lang.Double"/>
+		<field name="categoryName" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="PLANT_LVL_PROJECT_STATUS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_STATUS_OF_PROJECTS_ASSIGNED_TO_STACKEHOLDERS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_TOTAL_PROJECTS_ASSIGNED_TO_SH" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_PROJ_COUNT_AS_PER_ESTIMATED_SAVINGS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_DEPT_WISE_USER_PARTICIPATION" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_TOTAL_ESTIMATED_SAVINGS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_PROJ_COUNT_PER_CONFIRMED_SAVNGS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_TOTAL_CONFIRMED_SAVINGS" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="PLANT_LVL_BENEFITS_AT_PLANT" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="3059" splitType="Stretch">
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="20" width="560" height="280" uuid="f79891c7-eee8-4f50-857a-630c428560c0"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Status At Plant Level"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="1f69ed38-a023-4aef-b399-89bf058fdc5d">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_PROJECT_STATUS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Project Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="350" width="560" height="280" uuid="0367f643-fea9-4e35-898b-cb4d538961c7"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Status Of Projects Assigned To Stake Holders"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="baf4eb1b-6dbc-479f-8cad-c518bd739964">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_STATUS_OF_PROJECTS_ASSIGNED_TO_STACKEHOLDERS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Project Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="680" width="560" height="280" uuid="2e4a7dcf-6aa0-4b4f-9e98-9b848cf2664f"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Total Projects Assigned To Stake Holders"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="1f18474b-384b-4de2-b7e9-0ecca6de05a5">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_TOTAL_PROJECTS_ASSIGNED_TO_SH}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="1010" width="560" height="280" uuid="3e6caac8-1220-4c2f-8848-0ad7a29476fd"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Count As Per Estimated Savings"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="0b7fc1a5-5c6a-4b27-9614-6ed876e61f91">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_PROJ_COUNT_AS_PER_ESTIMATED_SAVINGS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Project Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="4" y="1360" width="553" height="280" uuid="80dda009-f0af-4a15-9fcb-2457bf797e4d"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Total Estimated Savings"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="58a7a1a8-403f-4ab6-8f63-de18eaa021d2">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_TOTAL_ESTIMATED_SAVINGS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{categoryName}]]></keyExpression>
+					<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					<labelExpression><![CDATA[$F{categoryName}+" : "+String.valueOf(($F{value}).intValue())]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="1730" width="560" height="280" uuid="afb830e9-52d8-47eb-b68b-f9fe5e069330"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Department Wise Participation"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="b061a28e-2af6-43c0-b37c-d1b9ef081f76">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_DEPT_WISE_USER_PARTICIPATION}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Employee Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="2070" width="560" height="280" uuid="c68785d3-2f32-4472-8cd8-8f5ce1e3101f"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Project Count As Per Confirmed Savings"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="60e6158a-36ab-48be-95b9-4b14177e4d5d">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_PROJ_COUNT_PER_CONFIRMED_SAVNGS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Project Count"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<pieChart>
+				<chart evaluationTime="Report">
+					<reportElement x="1" y="2410" width="553" height="290" uuid="bb76e9b7-5c43-4246-9bb3-d58745cb6117"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Total Confirmed Savings"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="a994d30c-bed3-4d7f-9107-f9802329c6ce">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_TOTAL_CONFIRMED_SAVINGS}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{categoryName}]]></keyExpression>
+					<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					<labelExpression><![CDATA[$F{categoryName}+" : "+String.valueOf(($F{value}).intValue())]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="3" y="2760" width="554" height="280" uuid="37839fb9-f4de-402a-b787-1a5f8e5c9b60"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["Benefits At Plant Level"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="plantLvlKuberDataset" uuid="74c4971c-5b0b-42e4-9369-c5b2929a2f21">
+							<dataSourceExpression><![CDATA[$P{PLANT_LVL_BENEFITS_AT_PLANT}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{categoryName}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{data}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{value}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Benefit Amount"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

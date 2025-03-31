@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="category" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b14fbe55-7cbb-4a03-aea9-a183cca8957a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="suggestionDataSet" uuid="119b7f0e-01ef-4e2b-b628-d76f51e83768">
+		<field name="data" class="java.lang.String"/>
+		<field name="categoryName" class="java.lang.String"/>
+		<field name="value" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="ACROSS_LEVEL_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="OE_LEVEL_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="STAFF_LEVEL_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<parameter name="PLANT_LEVEL_DATASET" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<group name="dummy" isStartNewColumn="true" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA["dummy"]]></groupExpression>
+		<groupFooter>
+			<band height="802" splitType="Stretch">
+				<barChart>
+					<chart isShowLegend="false" evaluationTime="Report" theme="default">
+						<reportElement x="0" y="40" width="560" height="315" printWhenGroupChanges="dummy" uuid="c4b72899-a9a4-438f-9313-b75d837f7e6d">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Issue Status Across Levels"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="0ecaa80b-cec2-428a-9e03-fd4aea52055b">
+								<dataSourceExpression><![CDATA[$P{ACROSS_LEVEL_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Issues"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<barChart>
+					<chart evaluationTime="Report">
+						<reportElement x="0" y="392" width="560" height="338" printWhenGroupChanges="dummy" uuid="bdefc74e-9381-4126-aae6-b186f76cae51">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["OE Level Issue Status"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="1ee34aa2-9b7a-4d37-9834-d1170bd89fd1">
+								<dataSourceExpression><![CDATA[$P{OE_LEVEL_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Issues"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+			</band>
+			<band height="802">
+				<barChart>
+					<chart isShowLegend="false" evaluationTime="Report">
+						<reportElement x="-3" y="20" width="560" height="330" printWhenGroupChanges="dummy" uuid="20d1a593-47fd-4a1c-8151-1dc6740b85ab">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Staff Level Issue Status"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="af0768bd-c698-486b-a8d8-bc28b5ff3fc9">
+								<dataSourceExpression><![CDATA[$P{STAFF_LEVEL_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.format("%,.0f",$F{value})]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Issues"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<barChart>
+					<chart isShowLegend="false" evaluationTime="Report">
+						<reportElement x="0" y="390" width="560" height="330" printWhenGroupChanges="dummy" uuid="1c254f14-5612-4b68-a355-f9925429353e">
+							<property name="net.sf.jasperreports.chart.range.axis.integer.unit" value="true"/>
+							<property name="net.sf.jasperreports.export.xls.showlabel" value="true"/>
+						</reportElement>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["Plant Level Issue Status"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset>
+							<datasetRun subDataset="suggestionDataSet" uuid="b8493d78-97a6-42e9-b4ac-312885fa3c5f">
+								<dataSourceExpression><![CDATA[$P{PLANT_LEVEL_DATASET}]]></dataSourceExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{data}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{categoryName}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<labelExpression><![CDATA[String.format("%,.0f",$F{value})]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot isShowLabels="true">
+						<plot/>
+						<itemLabel>
+							<font size="10" isItalic="true"/>
+						</itemLabel>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisLabelExpression><![CDATA["Issues"]]></valueAxisLabelExpression>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>
