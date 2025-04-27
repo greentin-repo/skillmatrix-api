@@ -15,6 +15,8 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 
+import com.greentin.enovation.model.skillMatrix.*;
+import com.greentin.enovation.model.skillMatrix.SMWorkstationMapping;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,33 +45,6 @@ import com.greentin.enovation.model.DepartmentMaster;
 import com.greentin.enovation.model.EmailTemplateMaster;
 import com.greentin.enovation.model.EmployeeDetails;
 import com.greentin.enovation.model.dwm.Line;
-import com.greentin.enovation.model.skillMatrix.SMAssessment;
-import com.greentin.enovation.model.skillMatrix.SMAssessmentOptions;
-import com.greentin.enovation.model.skillMatrix.SMAssessmentQues;
-import com.greentin.enovation.model.skillMatrix.SMCategory;
-import com.greentin.enovation.model.skillMatrix.SMChecksheet;
-import com.greentin.enovation.model.skillMatrix.SMChecksheetParameter;
-import com.greentin.enovation.model.skillMatrix.SMChecksheetPoints;
-import com.greentin.enovation.model.skillMatrix.SMEmpSkillMatrix;
-import com.greentin.enovation.model.skillMatrix.SMMasterCertificate;
-import com.greentin.enovation.model.skillMatrix.SMOJTAssessment;
-import com.greentin.enovation.model.skillMatrix.SMOJTAssessmentOpt;
-import com.greentin.enovation.model.skillMatrix.SMOJTAssessmentQues;
-import com.greentin.enovation.model.skillMatrix.SMOJTCertification;
-import com.greentin.enovation.model.skillMatrix.SMOJTChecksheetPoints;
-import com.greentin.enovation.model.skillMatrix.SMOJTChecksheetPointsAudit;
-import com.greentin.enovation.model.skillMatrix.SMOJTCyclePlanParameter;
-import com.greentin.enovation.model.skillMatrix.SMOJTPlan;
-import com.greentin.enovation.model.skillMatrix.SMOJTRegis;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkilling;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkillingAudit;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkillingChecksheet;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkillingParameter;
-import com.greentin.enovation.model.skillMatrix.SMQuestionType;
-import com.greentin.enovation.model.skillMatrix.SMSkillLevel;
-import com.greentin.enovation.model.skillMatrix.SMStage;
-import com.greentin.enovation.model.skillMatrix.SMStageLabel;
-import com.greentin.enovation.model.skillMatrix.SMWorkstations;
 import com.greentin.enovation.utils.CommonUtils;
 import com.greentin.enovation.utils.EnovationConstants;
 import com.greentin.enovation.utils.EnovationException;
@@ -1091,6 +1066,35 @@ public class SkillMatrixWorker {
 			} else {
 				addSMEmpSkillMatrix(session, request, slObj);
 			}
+
+			// Update skill levels for linked workstations only if assessment is passed
+			if (slObj.getSkillLevelId() > 0) {
+				List<com.greentin.enovation.model.skillMatrix.SMWorkstationMapping> linkedWorkstations = smUtils.findLinkedWorkstations(session, request.getWorkstationId());
+				if (!CollectionUtils.isEmpty(linkedWorkstations)) {
+					LOGGER.info("Updating skill levels for {} linked workstations", linkedWorkstations.size());
+					for (SMWorkstationMapping mapping : linkedWorkstations) {
+						SMAssessmentDTO linkedSlObj = new SMAssessmentDTO();
+						linkedSlObj.setEmpId(request.getEmpId());
+						linkedSlObj.setWorkstationId(mapping.getChildWorkstation().getId());
+						linkedSlObj.setSkillLvlId(slObj.getSkillLevelId());
+						linkedSlObj.setBranchId(request.getBranchId());
+						linkedSlObj.setDeptId(request.getDeptId());
+						linkedSlObj.setLineId(request.getLineId());
+
+						// Check if skill matrix entry exists for the linked workstation
+						if (checkSMAlreadyExit(linkedSlObj, session)) {
+							// Update existing skill level
+							updateSMEmpSkillMatrix(session, linkedSlObj);
+							LOGGER.info("Updated skill level for linked workstation ID: {}", mapping.getChildWorkstation().getId());
+						} else {
+							// Create new skill matrix entry
+							addSMEmpSkillMatrix(session, request, linkedSlObj);
+							LOGGER.info("Created new skill level entry for linked workstation ID: {}", mapping.getChildWorkstation().getId());
+						}
+					}
+				}
+			}
+
 			sendEmailToOEAsessmentPass(mailList, emailData);
 			request.setAssessmentStatus(SMConstant.ASSESSMENT_PASS);
 
@@ -2219,6 +2223,46 @@ public class SkillMatrixWorker {
 		}
 		System.out.println(str);
 		return str;
+	}
+
+	private boolean checkSMAlreadyExit(SMAssessmentDTO slObj, Session session) {
+		LOGGER.info("#In SkillMatrixWorker |  INSIDE in checkSMAlreadyExit ");
+		List<Tuple> tupleList = session.createNativeQuery(
+						"select id from sm_emp_skill_matrix where emp_id=:empId and workstation_id=:workstationId and branch_id=:branchId and dept_id=:deptId and line_id=:lineId",
+						Tuple.class)
+				.setParameter("empId", slObj.getEmpId())
+				.setParameter("workstationId", slObj.getWorkstationId())
+				.setParameter("branchId", slObj.getBranchId())
+				.setParameter("deptId", slObj.getDeptId())
+				.setParameter("lineId", slObj.getLineId())
+				.getResultList();
+		return !CollectionUtils.isEmpty(tupleList);
+	}
+
+	private void updateSMEmpSkillMatrix(Session session, SMAssessmentDTO slObj) {
+		LOGGER.info("#In SkillMatrixWorker |  INSIDE in updateSMEmpSkillMatrix ");
+		session.createNativeQuery(
+						"update sm_emp_skill_matrix set skill_level_id=:skillLevelId where emp_id=:empId and workstation_id=:workstationId and branch_id=:branchId and dept_id=:deptId and line_id=:lineId")
+				.setParameter("skillLevelId", slObj.getSkillLvlId())
+				.setParameter("empId", slObj.getEmpId())
+				.setParameter("workstationId", slObj.getWorkstationId())
+				.setParameter("branchId", slObj.getBranchId())
+				.setParameter("deptId", slObj.getDeptId())
+				.setParameter("lineId", slObj.getLineId())
+				.executeUpdate();
+	}
+
+	private void addSMEmpSkillMatrix(Session session, SkillMatrixRequest request, SMAssessmentDTO slObj) {
+		LOGGER.info("#In SkillMatrixWorker |  INSIDE in addSMEmpSkillMatrix ");
+		session.createNativeQuery(
+						"insert into sm_emp_skill_matrix (emp_id,workstation_id,branch_id,dept_id,line_id,skill_level_id) values (:empId,:workstationId,:branchId,:deptId,:lineId,:skillLevelId)")
+				.setParameter("empId", slObj.getEmpId())
+				.setParameter("workstationId", slObj.getWorkstationId())
+				.setParameter("branchId", slObj.getBranchId())
+				.setParameter("deptId", slObj.getDeptId())
+				.setParameter("lineId", slObj.getLineId())
+				.setParameter("skillLevelId", slObj.getSkillLvlId())
+				.executeUpdate();
 	}
 
 }
