@@ -19,6 +19,8 @@ public class EnovationDTO {
 
 	private int transferTo;
 
+	private int stageId;
+
 	private List<HashMap<String, List<EnovationDTO>>> data;
 
 	public int getId() {
@@ -53,4 +55,11 @@ public class EnovationDTO {
 		this.transferTo = transferTo;
 	}
 
+	public int getStageId() {
+		return stageId;
+	}
+
+	public void setStageId(int stageId) {
+		this.stageId = stageId;
+	}
 }
