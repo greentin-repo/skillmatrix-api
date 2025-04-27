@@ -164,5 +164,10 @@ public class SetupConfigController {
 		System.out.println("Inside updateMandatoryFieldDetails");
 		return setupconfigservice.updateMandatoryFieldDetails(poc);	
 	}
+
+	@CrossOrigin
+	@PostMapping(value="/deleteOjtRegistration/{ojtId}")
+	public Response deleteOjtRegistration(@PathVariable("ojtId") Integer ojtId) {		return setupconfigservice.deleteOjtRegistration(ojtId);
+	}
 	
 }

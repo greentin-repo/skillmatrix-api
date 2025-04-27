@@ -3,6 +3,8 @@ package com.greentin.enovation.setup;
 
 
 import java.util.List;
+
+import com.greentin.enovation.model.skillMatrix.SMOJTRegis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -537,6 +539,30 @@ public class SetupConfigSerImp implements SetupConfigService {
 		return response;
 	}
 
-	
+	@Override
+	public Response deleteOjtRegistration(Integer ojtId) {
+		Response response = new Response();
+		try {
+			boolean result = setupconfigDao.deleteOjtRegistration(ojtId);
+			if (result) {
+				response.setReason("OJT Registration deleted successfully");
+				response.setStatus(EnovationConstants.statusSuccess);
+				response.setStatusCode(EnovationConstants.Code200);
+				response.setResult(EnovationConstants.resultTrue);
+			} else {
+				response.setReason("Failed to delete OJT Registration");
+				response.setResult(EnovationConstants.ResultFalse);
+				response.setStatus(EnovationConstants.statusFail);
+				response.setStatusCode(EnovationConstants.Code500);
+			}
+		} catch (Exception e) {
+			LOGGER.error("Error in deleteOjtRegistration: " + e.getMessage());
+			response.setReason("Error occurred while deleting OJT Registration: " + e.getMessage());
+			response.setResult(EnovationConstants.ResultFalse);
+			response.setStatus(EnovationConstants.statusFail);
+			response.setStatusCode(EnovationConstants.Code500);
+		}
+		return response;
+	}
 	
 }
