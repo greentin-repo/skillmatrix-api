@@ -1,0 +1,12 @@
+# Ignore Maven/Gradle build output
+target/
+
+# Ignore Eclipse project files
+.classpath
+.project
+.factorypath
+.settings/
+
+# (Optional) Ignore OS junk files
+.DS_Store
+Thumbs.db
