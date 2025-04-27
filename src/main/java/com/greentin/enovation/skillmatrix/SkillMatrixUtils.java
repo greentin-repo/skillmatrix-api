@@ -18,6 +18,8 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 
+import com.greentin.enovation.model.skillMatrix.*;
+import com.greentin.enovation.model.skillMatrix.SMWorkstationMapping;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,20 +46,6 @@ import com.greentin.enovation.model.DepartmentMaster;
 import com.greentin.enovation.model.EmailTemplateMaster;
 import com.greentin.enovation.model.EmployeeDetails;
 import com.greentin.enovation.model.dwm.Line;
-import com.greentin.enovation.model.skillMatrix.SMAssessmentQues;
-import com.greentin.enovation.model.skillMatrix.SMChecksheet;
-import com.greentin.enovation.model.skillMatrix.SMChecksheetParameter;
-import com.greentin.enovation.model.skillMatrix.SMChecksheetPoints;
-import com.greentin.enovation.model.skillMatrix.SMMasterCertificate;
-import com.greentin.enovation.model.skillMatrix.SMOJTAssessment;
-import com.greentin.enovation.model.skillMatrix.SMOJTChecksheetPoints;
-import com.greentin.enovation.model.skillMatrix.SMOJTRegis;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkilling;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkillingAudit;
-import com.greentin.enovation.model.skillMatrix.SMOJTSkillingChecksheet;
-import com.greentin.enovation.model.skillMatrix.SMParameterType;
-import com.greentin.enovation.model.skillMatrix.SMSkillLevel;
-import com.greentin.enovation.model.skillMatrix.SMWorkstations;
 import com.greentin.enovation.response.SkillMatrixResponse;
 import com.greentin.enovation.utils.ColumnAscDescConstants;
 import com.greentin.enovation.utils.CommonUtils;
@@ -2491,4 +2479,13 @@ public class SkillMatrixUtils {
 		return null;
 	}
 
+	public List<com.greentin.enovation.model.skillMatrix.SMWorkstationMapping> findLinkedWorkstations(Session session, long workstationId) {
+		LOGGER.info("#In SkillMatrixUtils | Finding linked workstations for workstation: {}", workstationId);
+		List<SMWorkstationMapping> linkedWorkstations = session.createNativeQuery(
+						"SELECT * FROM sm_workstation_mapping WHERE source_workstation_id = :workstationId AND is_active = 1",
+						SMWorkstationMapping.class)
+				.setParameter("workstationId", workstationId)
+				.getResultList();
+		return linkedWorkstations;
+	}
 }
