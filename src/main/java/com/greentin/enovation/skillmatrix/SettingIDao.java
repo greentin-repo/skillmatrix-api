@@ -169,4 +169,8 @@ public interface SettingIDao {
 
 	HashMap<String, Object> getDocName(SkillMatrixRequest request);
 
+	List<HashMap<String, Object>> getWorkstationMappingListByParentWorkstationId(SkillMatrixRequest request, SkillMatrixResponse response);
+
+	List<HashMap<String, Object>> getAllWorkstationMapping();
+
 }

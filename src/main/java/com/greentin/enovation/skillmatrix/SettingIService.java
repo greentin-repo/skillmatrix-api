@@ -86,6 +86,10 @@ public interface SettingIService {
 
 	SkillMatrixResponse getWorkstationList(SkillMatrixRequest request);
 
+	SkillMatrixResponse getWorkstationMappingListByParentWorkstationId(SkillMatrixRequest request);
+
+	SkillMatrixResponse getAllWorkstationMapping();
+
 	SkillMatrixResponse saveUserType(SkillMatrixRequest request);
 
 	SkillMatrixResponse deleteUserType(SkillMatrixRequest request);

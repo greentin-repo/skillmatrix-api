@@ -1,7 +1,9 @@
 package com.greentin.enovation.skillmatrix;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.greentin.enovation.dto.SMAssessmentDTO;
 import com.greentin.enovation.dto.SkillMatrixRequest;
@@ -903,6 +906,30 @@ public class SettingServiceImpl implements SettingIService {
 		String jsonRequest = new Gson().toJson(request);
 		try {
 			List<HashMap<String, Object>> list = settingDao.getWorkstationList(request, response);
+			if (!CollectionUtils.isEmpty(list)) {
+				response = BuildResponse.success(response);
+				response.setDataList(list);
+			} else {
+				response = BuildResponse.fail(response);
+			}
+		} catch (EnovationException e) {
+			response = BuildResponse.fail100(response);
+			response.setReason(e.getReason());
+		} catch (Exception e) {
+
+			LOGGER.info("# SettingServiceImpl || getWorkstationList - {}", e.getMessage());
+			response = BuildResponse.internalServerError(response);
+			sendExceptionEmail(jsonRequest, e);
+		}
+		return response;
+	}
+
+	public SkillMatrixResponse getWorkstationMappingListByParentWorkstationId(SkillMatrixRequest request) {
+		LOGGER.info("# SettingServiceImpl || getWorkstationList");
+		SkillMatrixResponse response = new SkillMatrixResponse();
+		String jsonRequest = new Gson().toJson(request);
+		try {
+			List<HashMap<String, Object>> list = settingDao.getWorkstationMappingListByParentWorkstationId(request, response);
 			if (!CollectionUtils.isEmpty(list)) {
 				response = BuildResponse.success(response);
 				response.setDataList(list);
@@ -1886,6 +1913,50 @@ public class SettingServiceImpl implements SettingIService {
 			LOGGER.info("# SettingServiceImpl || getDocName - {}" + e.getMessage());
 			response = BuildResponse.internalServerError(response);
 			sendExceptionEmail(jsonRequest, e);
+		}
+		return response;
+	}
+
+	@Override
+	public SkillMatrixResponse getAllWorkstationMapping() {
+		LOGGER.info("# SettingServiceImpl | getAllWorkstationMapping");
+		SkillMatrixResponse response = new SkillMatrixResponse();
+		try {
+			List<HashMap<String, Object>> mappingList = settingDao.getAllWorkstationMapping();
+			if (CollectionUtils.isEmpty(mappingList)) {
+				response = BuildResponse.fail(response);
+				return response;
+			}
+
+			// Parse the JSON array of child workstations for each mapping
+			for (HashMap<String, Object> mapping : mappingList) {
+				Object childWorkstationsObj = mapping.get("childWorkstations");
+				if (childWorkstationsObj != null) {
+					try {
+						String childWorkstationsJson;
+						if (childWorkstationsObj instanceof char[]) {
+							childWorkstationsJson = new String((char[]) childWorkstationsObj);
+						} else {
+							childWorkstationsJson = childWorkstationsObj.toString();
+						}
+						ObjectMapper mapper = new ObjectMapper();
+						List<Map<String, Object>> childWorkstations = mapper.readValue(childWorkstationsJson, List.class);
+						mapping.put("childWorkstations", childWorkstations);
+					} catch (Exception e) {
+						LOGGER.error("Error parsing child workstations JSON: {}", e.getMessage());
+						mapping.put("childWorkstations", new ArrayList<>());
+					}
+				} else {
+					mapping.put("childWorkstations", new ArrayList<>());
+				}
+			}
+
+			response = BuildResponse.success(response);
+			response.setDataList(mappingList);
+		} catch (Exception e) {
+			LOGGER.error("Error in getAllWorkstationMapping: {}", e.getMessage());
+			response = BuildResponse.internalServerError(response);
+			sendExceptionEmail("getAllWorkstationMapping", e);
 		}
 		return response;
 	}

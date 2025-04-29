@@ -349,6 +349,8 @@ public class SkillMatrixRequest {
 	
 	private int machineCount;
 
+	private long parentWorkstationId;
+
 	public int getBranchId() {
 		return branchId;
 	}
@@ -1651,6 +1653,14 @@ public class SkillMatrixRequest {
 
 	public void setMachineCount(int machineCount) {
 		this.machineCount = machineCount;
+	}
+
+	public long getParentWorkstationId() {
+		return parentWorkstationId;
+	}
+
+	public void setParentWorkstationId(long parentWorkstationId) {
+		this.parentWorkstationId = parentWorkstationId;
 	}
 
 }

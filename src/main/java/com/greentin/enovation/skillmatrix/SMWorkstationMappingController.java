@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.greentin.enovation.model.skillMatrix.SMWorkstationMapping;
+import com.greentin.enovation.dto.WorkstationMappingRequest;
 import com.greentin.enovation.response.SkillMatrixResponse;
 import com.greentin.enovation.service.SMWorkstationMappingService;
+import com.greentin.enovation.dto.SkillMatrixRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,27 +27,30 @@ public class SMWorkstationMappingController {
     @Autowired
     private SMWorkstationMappingService mappingService;
 
+    @Autowired
+    private SettingDaoImpl settingDao;
+
     /**
-     * Save a new workstation mapping
+     * Save multiple workstation mappings
      */
     @PostMapping(value = "/save")
-    public SkillMatrixResponse saveMapping(@RequestBody SMWorkstationMapping mapping) {
-        LOGGER.info("# SMWorkstationMappingController || saveMapping");
+    public SkillMatrixResponse saveMappings(@RequestBody WorkstationMappingRequest request) {
+        LOGGER.info("# SMWorkstationMappingController || saveMappings");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {
-            SMWorkstationMapping savedMapping = mappingService.saveMapping(mapping);
+            List<SMWorkstationMapping> savedMappings = mappingService.saveMappings(request);
             HashMap<String, Object> data = new HashMap<>();
-            data.put("mapping", savedMapping);
+            data.put("mappings", savedMappings);
             response.setStatus("success");
             response.setStatusCode(200);
             response.setResult(true);
             response.setData(data);
         } catch (Exception e) {
-            LOGGER.error("Error saving workstation mapping: {}", e.getMessage());
+            LOGGER.error("Error saving workstation mappings: {}", e.getMessage());
             response.setStatus("error");
             response.setStatusCode(500);
             response.setResult(false);
-            response.setReason("Error saving workstation mapping: " + e.getMessage());
+            response.setReason("Error saving workstation mappings: " + e.getMessage());
         }
         return response;
     }
@@ -148,31 +153,6 @@ public class SMWorkstationMappingController {
     }
 
     /**
-     * Get mappings by parent workstation
-     */
-    @GetMapping(value = "/get-by-parent/{parentWorkstationId}")
-    public SkillMatrixResponse getMappingsByParentWorkstation(@PathVariable("parentWorkstationId") Long parentWorkstationId) {
-        LOGGER.info("# SMWorkstationMappingController || getMappingsByParentWorkstation");
-        SkillMatrixResponse response = new SkillMatrixResponse();
-        try {
-            List<SMWorkstationMapping> mappings = mappingService.getMappingsByParentWorkstation(parentWorkstationId);
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("mappings", mappings);
-            response.setStatus("success");
-            response.setStatusCode(200);
-            response.setResult(true);
-            response.setData(data);
-        } catch (Exception e) {
-            LOGGER.error("Error getting mappings by parent workstation: {}", e.getMessage());
-            response.setStatus("error");
-            response.setStatusCode(500);
-            response.setResult(false);
-            response.setReason("Error getting mappings by parent workstation: " + e.getMessage());
-        }
-        return response;
-    }
-
-    /**
      * Get mappings by child workstation
      */
     @GetMapping(value = "/get-by-child/{childWorkstationId}")
@@ -201,7 +181,7 @@ public class SMWorkstationMappingController {
      * Get mappings by branch
      */
     @GetMapping(value = "/get-by-branch/{branchId}")
-    public SkillMatrixResponse getMappingsByBranch(@PathVariable("branchId") Long branchId) {
+    public SkillMatrixResponse getMappingsByBranch(@PathVariable("branchId") int branchId) {
         LOGGER.info("# SMWorkstationMappingController || getMappingsByBranch");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {
@@ -226,7 +206,7 @@ public class SMWorkstationMappingController {
      * Get mappings by department
      */
     @GetMapping(value = "/get-by-department/{deptId}")
-    public SkillMatrixResponse getMappingsByDepartment(@PathVariable("deptId") Long deptId) {
+    public SkillMatrixResponse getMappingsByDepartment(@PathVariable("deptId") int deptId) {
         LOGGER.info("# SMWorkstationMappingController || getMappingsByDepartment");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {
@@ -251,7 +231,7 @@ public class SMWorkstationMappingController {
      * Get mappings by line
      */
     @GetMapping(value = "/get-by-line/{lineId}")
-    public SkillMatrixResponse getMappingsByLine(@PathVariable("lineId") Long lineId) {
+    public SkillMatrixResponse getMappingsByLine(@PathVariable("lineId") int lineId) {
         LOGGER.info("# SMWorkstationMappingController || getMappingsByLine");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {

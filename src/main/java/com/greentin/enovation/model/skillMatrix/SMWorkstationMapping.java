@@ -1,15 +1,7 @@
 package com.greentin.enovation.model.skillMatrix;
 
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -46,12 +38,6 @@ public class SMWorkstationMapping {
     @ManyToOne
     @JoinColumn(name = "line_id")
     private Line line;
-
-    @Column(name = "mapping_type", length = 50)
-    private String mappingType; // e.g., "SIMILAR", "EQUIVALENT"
-
-    @Column(name = "description", length = 500)
-    private String description;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -126,22 +112,6 @@ public class SMWorkstationMapping {
 
     public void setLine(Line line) {
         this.line = line;
-    }
-
-    public String getMappingType() {
-        return mappingType;
-    }
-
-    public void setMappingType(String mappingType) {
-        this.mappingType = mappingType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Boolean getIsActive() {

@@ -1,17 +1,22 @@
 package com.greentin.enovation.service;
 
+import com.greentin.enovation.dto.SkillMatrixRequest;
 import com.greentin.enovation.model.skillMatrix.SMWorkstationMapping;
+import com.greentin.enovation.dto.WorkstationMappingRequest;
+import com.greentin.enovation.response.SkillMatrixResponse;
+
 import java.util.List;
 
 public interface SMWorkstationMappingService {
+    List<SMWorkstationMapping> saveMappings(WorkstationMappingRequest request);
     SMWorkstationMapping saveMapping(SMWorkstationMapping mapping);
     SMWorkstationMapping updateMapping(SMWorkstationMapping mapping);
-    void deleteMapping(Long id);
-    SMWorkstationMapping getMappingById(Long id);
+    void deleteMapping(long id);
+    SMWorkstationMapping getMappingById(long id);
     List<SMWorkstationMapping> getAllMappings();
-    List<SMWorkstationMapping> getMappingsByParentWorkstation(Long parentWorkstationId);
-    List<SMWorkstationMapping> getMappingsByChildWorkstation(Long childWorkstationId);
-    List<SMWorkstationMapping> getMappingsByBranch(Long branchId);
-    List<SMWorkstationMapping> getMappingsByDepartment(Long deptId);
-    List<SMWorkstationMapping> getMappingsByLine(Long lineId);
+    List<SMWorkstationMapping> getMappingsByParentWorkstation(long parentWorkstationId);
+    List<SMWorkstationMapping> getMappingsByChildWorkstation(long childWorkstationId);
+    List<SMWorkstationMapping> getMappingsByBranch(int branchId);
+    List<SMWorkstationMapping> getMappingsByDepartment(int deptId);
+    List<SMWorkstationMapping> getMappingsByLine(long lineId);
 }
