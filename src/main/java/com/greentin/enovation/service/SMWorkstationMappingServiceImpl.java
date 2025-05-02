@@ -1,6 +1,7 @@
 package com.greentin.enovation.service;
 
 import com.google.gson.Gson;
+import com.greentin.enovation.dto.DeleteWorkstationMappingDTO;
 import com.greentin.enovation.dto.SkillMatrixRequest;
 import com.greentin.enovation.model.skillMatrix.SMWorkstationMapping;
 import com.greentin.enovation.model.skillMatrix.SMWorkstations;
@@ -48,6 +49,15 @@ public class SMWorkstationMappingServiceImpl implements SMWorkstationMappingServ
         // Create separate mappings for each child workstation ID
         return request.getChildWorkstationId().stream()
                 .map(childId -> {
+                    // Check if mapping already exists
+                    List<SMWorkstationMapping> existingMappings = findByBranchIdAndParentWorkstationIdAndChildWorkstationId(
+                            request.getBranchId(), request.getParentWorkstationId(), childId);
+                    
+                    if (!existingMappings.isEmpty()) {
+                        // Skip creating duplicate mapping
+                        return existingMappings.get(0);
+                    }
+
                     SMWorkstationMapping mapping = new SMWorkstationMapping();
                     mapping.setParentWorkstation(parentWorkstation);
                     
@@ -136,8 +146,8 @@ public class SMWorkstationMappingServiceImpl implements SMWorkstationMappingServ
     }
 
     @Override
-    public void deleteMappingsByParentWorkstationId(long parentWorkstationId) {
-        mappingRepository.deleteByParentWorkstationId(parentWorkstationId);
+    public void deleteMappingsByParentWorkstationId(DeleteWorkstationMappingDTO deleteWorkstationMappingDTO) {
+        mappingRepository.deleteByParentWorkstationIdAndBranchBranchId(deleteWorkstationMappingDTO.getParentWorkstationId(),deleteWorkstationMappingDTO.getBranchId());
     }
 
     @Override
@@ -173,5 +183,10 @@ public class SMWorkstationMappingServiceImpl implements SMWorkstationMappingServ
     @Override
     public List<SMWorkstationMapping> getMappingsByLine(long lineId) {
         return mappingRepository.findByLineId(lineId);
+    }
+
+    @Override
+    public List<SMWorkstationMapping> findByBranchIdAndParentWorkstationIdAndChildWorkstationId(int branchId, long parentWorkstationId, long childWorkstationId) {
+        return mappingRepository.findByBranchIdAndParentWorkstationIdAndChildWorkstationId(branchId, parentWorkstationId, childWorkstationId);
     }
 }

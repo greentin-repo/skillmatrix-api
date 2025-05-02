@@ -1,5 +1,6 @@
 package com.greentin.enovation.skillmatrix;
 
+import com.greentin.enovation.dto.DeleteWorkstationMappingDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,12 +79,12 @@ public class SMWorkstationMappingController {
         return response;
     }
 
-    @DeleteMapping(value = "/delete-by-parent/{parentWorkstationId}")
-    public SkillMatrixResponse deleteMappingsByParentWorkstation(@PathVariable("parentWorkstationId") long parentWorkstationId) {
+    @PostMapping(value = "/delete-by-parent")
+    public SkillMatrixResponse deleteMappingsByParentWorkstationAndBranchId(@RequestBody DeleteWorkstationMappingDTO deleteWorkstationMappingDTO) {
         LOGGER.info("# SMWorkstationMappingController || deleteMappingsByParentWorkstation");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {
-            mappingService.deleteMappingsByParentWorkstationId(parentWorkstationId);
+            mappingService.deleteMappingsByParentWorkstationId(deleteWorkstationMappingDTO);
             response.setStatus("success");
             response.setStatusCode(200);
             response.setResult(true);

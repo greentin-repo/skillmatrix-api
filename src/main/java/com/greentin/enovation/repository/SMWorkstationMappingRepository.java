@@ -25,4 +25,12 @@ public interface SMWorkstationMappingRepository extends JpaRepository<SMWorkstat
     @Modifying
     @Query(value = "DELETE FROM sm_workstation_mapping WHERE parent_workstation_id = ?1", nativeQuery = true)
     void deleteByParentWorkstationId(long parentWorkstationId);
+
+    void deleteByParentWorkstationIdAndBranchBranchId(long parentWorkstationId, int branchId);
+
+    @Query("SELECT m FROM SMWorkstationMapping m WHERE m.branch.branchId = :branchId AND m.parentWorkstation.id = :parentWorkstationId AND m.childWorkstation.id = :childWorkstationId AND m.isActive = true")
+    List<SMWorkstationMapping> findByBranchIdAndParentWorkstationIdAndChildWorkstationId(
+            @Param("branchId") int branchId,
+            @Param("parentWorkstationId") long parentWorkstationId,
+            @Param("childWorkstationId") long childWorkstationId);
 }
