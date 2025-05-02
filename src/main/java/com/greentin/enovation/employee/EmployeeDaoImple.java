@@ -3044,7 +3044,8 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 						"audit.status as skillingStatus, " +
 						"ojtSkilling.status as skillingTitle, " +
 						"ojtCheckseet.day_no as skillingNumber, " +
-						"mut.user_type as userType " +
+						"mut.user_type as userType, " +
+						"audit.stage_id as stageId " +
 						"FROM sm_ojt_skilling_audit audit " +
 						"INNER JOIN sm_ojt_skilling ojtSkilling ON ojtSkilling.id = audit.skilling_id " +
 						"INNER JOIN sm_ojt_skilling_checksheet ojtCheckseet ON ojtCheckseet.id = audit.skilling_checksheet_id " +
@@ -3075,6 +3076,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 				obj.put("skillingTitle", CommonUtils.objectToString(x.get("skillingTitle")));
 				obj.put("skillingNumber", CommonUtils.objectToString(x.get("skillingNumber")));
 				obj.put("userType", CommonUtils.objectToString(x.get("userType")));
+				obj.put("stageId", CommonUtils.objectToString(x.get("stageId")));
 				list.add(obj);
 			}
 		} else {
