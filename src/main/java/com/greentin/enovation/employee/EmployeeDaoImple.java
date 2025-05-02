@@ -129,7 +129,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		List<EmployeeDetails> empList = null;
 		if (employeeDetails.getEmailId() != null && employeeDetails.getOrgId() != 0) {
 			empList = getCurrentSession().createNativeQuery(
-					"select * from tbl_employee_details where email_id=:email_id and org_id=:org_id and branch_id=:branch_id ")
+							"select * from tbl_employee_details where email_id=:email_id and org_id=:org_id and branch_id=:branch_id ")
 					.setParameter("email_id", employeeDetails.getEmailId())
 					// .setParameter("password", employeeDetails.getPassword())
 					.setParameter("org_id", employeeDetails.getOrgId())
@@ -137,7 +137,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 					.getResultList();
 		} else if (employeeDetails.getOrgId() != 0 && employeeDetails.getBranchId() != 0) {
 			empList = getCurrentSession().createNativeQuery(
-					"select * from tbl_employee_details where cmpy_emp_id=:cpmy_emp_id and org_id=:org_id and branch_id=:branch_id ")
+							"select * from tbl_employee_details where cmpy_emp_id=:cpmy_emp_id and org_id=:org_id and branch_id=:branch_id ")
 					.setParameter("cpmy_emp_id", employeeDetails.getCmpyEmpId())
 					// .setParameter("password", employeeDetails.getPassword())
 					.setParameter("org_id", employeeDetails.getOrgId())
@@ -159,7 +159,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	public List<TeamtypeMaster> checkEmpInWhichTeam(int empId) {
 		LOGGER.info("# INSIDE IN checkEmpInWhichTeam ");
 		List<TeamtypeMaster> empInTeamType = getCurrentSession().createNativeQuery(
-				"Select t.* from tbl_employee_details ed,tbl_team_details td, master_teamtype t where td.emp_id=ed.emp_id AND td.team_type_id=t.team_type_id AND ed.emp_id=:empId  group by td.team_type_id  ")
+						"Select t.* from tbl_employee_details ed,tbl_team_details td, master_teamtype t where td.emp_id=ed.emp_id AND td.team_type_id=t.team_type_id AND ed.emp_id=:empId  group by td.team_type_id  ")
 				.addEntity(TeamtypeMaster.class).setParameter("empId", empId).getResultList();
 
 		return empInTeamType;
@@ -530,7 +530,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	public void sendMailToImportedEmployees(String email_id, String firstName, String lastName, String token,
-			List<String> rolesList, String CONDITION) {
+											List<String> rolesList, String CONDITION) {
 		LOGGER.info("#INSIDE IN SENDMAILTOIMPORTEDEMPLOYEES");
 		String verifyLink = null, roles = null, role = null, newRemove = null;
 		EmailTemplateMaster messageContent = null;
@@ -570,7 +570,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	public void sendMailToImportedEmployees(String email_id, String firstName, String roleNames, String token,
-			String CONDITION) {
+											String CONDITION) {
 		LOGGER.info("#INSIDE IN SENDMAILTOIMPORTEDEMPLOYEES ");
 		String verifyLink = null, role = null, newRemove = null, superAdmin = "";
 		String prtalLink = "";
@@ -662,7 +662,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	public MailDTO sendMailToBulkImportedEmployees(String email_id, String firstName, String roleNames, String token,
-			String CONDITION) {
+												   String CONDITION) {
 		LOGGER.info("#INSIDE IN SENDMAILTOIMPORTEDEMPLOYEES ");
 		String verifyLink = null, role = null, newRemove = null, superAdmin = "";
 		String prtalLink = "";
@@ -757,7 +757,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 
 	@SuppressWarnings("unused")
 	public void sendMailTo_ROLE_CHANGED_Employees(String email_id, String firstName, String lastName, String roleName,
-			String CONDITION) {
+												  String CONDITION) {
 
 		LOGGER.info("#INSIDE IN SENDMAILTOIMPORTEDEMPLOYEES ");
 		String newRemove = null;
@@ -819,7 +819,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		LOGGER.info("# INSIDE IN getEmpTeamList ");
 		List<EmployeeDetails> empDetTeamWise = null;
 		empDetTeamWise = getCurrentSession().createNativeQuery(
-				"Select e.* from tbl_employee_details e join tbl_team_details t on t.emp_id=e.emp_id and e.is_de_active=:isDeactive group by t.emp_id")
+						"Select e.* from tbl_employee_details e join tbl_team_details t on t.emp_id=e.emp_id and e.is_de_active=:isDeactive group by t.emp_id")
 				.addEntity(EmployeeDetails.class).setParameter("isDeactive", EnovationConstants.DESABLE_STATUS)
 				.getResultList();
 		return empDetTeamWise;
@@ -998,7 +998,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		// Commented By Vinay B. 23.03.2021
 		/*
 		 * LOGGER.info("# INSIDE IN getEmployeeByEmpId ");
-		 * 
+		 *
 		 * List<EmployeeDetails> empDet = getCurrentSession()
 		 * .createQuery("from EmployeeDetails where empId=:empId and isDeactive=:isDeactive"
 		 * ) .setParameter("empId", empId).setParameter("isDeactive",
@@ -1651,7 +1651,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 						}
 					}
 					session.createNativeQuery(
-							" update tbl_employee_details set is_notify=:isNotify where emp_id=:empId ")
+									" update tbl_employee_details set is_notify=:isNotify where emp_id=:empId ")
 							.setParameter("isNotify", EnovationConstants.ONE).setParameter("empId", req.getEmpId())
 							.executeUpdate();
 
@@ -1666,7 +1666,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	public boolean sendBulkEmailtoEmployee(List<EmployeeDetails> sendMailEmployeeList, int isSetupCompleted,
-			ProductOrgConfig list) {
+										   ProductOrgConfig list) {
 		boolean flag = false;
 		Session session = getCurrentSession();
 		LOGGER.info("#INSIDE IN SENDBULKEMAILTOEMPLOYEE API ");
@@ -1743,7 +1743,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 						}
 					}
 					session.createNativeQuery(
-							"update tbl_employee_details set is_notify=:isNotify where emp_id=:empId ")
+									"update tbl_employee_details set is_notify=:isNotify where emp_id=:empId ")
 							.setParameter("isNotify", EnovationConstants.ONE).setParameter("empId", employee.getEmpId())
 							.executeUpdate();
 					mailList.add(mail);
@@ -1813,7 +1813,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 
 			if (passwdCheckLimit > 0) {
 				List<Object[]> data = session.createNativeQuery(
-						"SELECT current_value,audit_id from employee_details_audit WHERE emp_id=:empId and action='Update Password'  ORDER BY action_date DESC LIMIT :limit")
+								"SELECT current_value,audit_id from employee_details_audit WHERE emp_id=:empId and action='Update Password'  ORDER BY action_date DESC LIMIT :limit")
 						.setParameter("empId", request.getEmpId()).setParameter("limit", passwdCheckLimit)
 						.getResultList();
 
@@ -1842,7 +1842,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 					} else {
 						System.out.println("IN ELSE PART OF PASSWORD CHECK");
 						/*
-						 * 
+						 *
 						 * int auditId, String action, EmployeeDetails actionBy, Timestamp actionDate,
 						 * EmployeeDetails empId, String previousValue, String currentValue
 						 */
@@ -2187,7 +2187,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	public EmployeeDetails checkLoginEmail(String email) {
 
 		List<EmployeeDetails> emp = getCurrentSession().createQuery(
-				"FROM EmployeeDetails WHERE (emailId=:email or contactNo = :email or cmpyEmpId = :email) and isDeactive=0 and empType not in ('CW') ")
+						"FROM EmployeeDetails WHERE (emailId=:email or contactNo = :email or cmpyEmpId = :email) and isDeactive=0 and empType not in ('CW') ")
 				.setParameter("email", email).getResultList();
 		if (emp != null && emp.size() > 0) {
 			// portalLink = emp.get(0).getOrganization().getPortalLink();
@@ -2371,12 +2371,12 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 			Object obj = session.save(feed);
 			if (obj != null) {
 				List<Object[]> data = session.createNativeQuery(
-						"select f.feedback,f.created_date,f.ratings,f.feedback_by_id,f.feedback_type_id,ft.feedback_type,name,concat(e.first_name,' ',e.last_name) as 'Employee Name',e.email_id,f.source_type,o.portal_link\r\n"
-								+ "from feedback f \r\n"
-								+ "inner join feedback_type ft on ft.feedback_type_id=f.feedback_type_id\r\n"
-								+ "inner join master_organization o on o.org_id=f.org_id\r\n"
-								+ "inner join tbl_employee_details e on e.emp_id=f.feedback_by_id\r\n"
-								+ "where f.feedback_id=:feedId")
+								"select f.feedback,f.created_date,f.ratings,f.feedback_by_id,f.feedback_type_id,ft.feedback_type,name,concat(e.first_name,' ',e.last_name) as 'Employee Name',e.email_id,f.source_type,o.portal_link\r\n"
+										+ "from feedback f \r\n"
+										+ "inner join feedback_type ft on ft.feedback_type_id=f.feedback_type_id\r\n"
+										+ "inner join master_organization o on o.org_id=f.org_id\r\n"
+										+ "inner join tbl_employee_details e on e.emp_id=f.feedback_by_id\r\n"
+										+ "where f.feedback_id=:feedId")
 						.setParameter("feedId", feed.getFeedbackId()).getResultList();
 				for (Object[] row : data) {
 					String body = null, emailTemplateBody = null;
@@ -2469,12 +2469,12 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		try {
 
 			List<Object[]> branchData = session.createNativeQuery(
-					"SELECT ed.emp_id,ed.first_name,ed.last_name,ed.email_id,mb.org_id,mb.branch_id,m.location,m.name as branch_name \r\n"
-							+ "FROM multiple_branch_access mb \r\n"
-							+ "INNER JOIN tbl_employee_details ed ON ed.emp_id = mb.emp_id\r\n"
-							+ "INNER JOIN master_branch m ON m.branch_id = mb.branch_id\r\n"
-							+ "INNER JOIN emp_roles er  ON ed.emp_id = er.emp_id\r\n"
-							+ "WHERE ed.email_id=:email AND er.role_id=:roleId")
+							"SELECT ed.emp_id,ed.first_name,ed.last_name,ed.email_id,mb.org_id,mb.branch_id,m.location,m.name as branch_name \r\n"
+									+ "FROM multiple_branch_access mb \r\n"
+									+ "INNER JOIN tbl_employee_details ed ON ed.emp_id = mb.emp_id\r\n"
+									+ "INNER JOIN master_branch m ON m.branch_id = mb.branch_id\r\n"
+									+ "INNER JOIN emp_roles er  ON ed.emp_id = er.emp_id\r\n"
+									+ "WHERE ed.email_id=:email AND er.role_id=:roleId")
 					.setParameter("email", email).setParameter("roleId", EnovationConstants.ORG_EXECUTIVE)
 					.getResultList();
 
@@ -2505,7 +2505,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		Session session = getCurrentSession();
 		try {
 			details = session.createNativeQuery("SELECT rating,created_date,id FROM mood_indicator "
-					+ " WHERE branch_id=:branchId AND emp_id= :empId AND DATE(created_date)=CURDATE() ORDER BY created_date DESC  ")
+							+ " WHERE branch_id=:branchId AND emp_id= :empId AND DATE(created_date)=CURDATE() ORDER BY created_date DESC  ")
 					.setParameter("branchId", branchId).setParameter("empId", empId).setMaxResults(1).getResultList();
 			for (Object[] obj : details) {
 				MoodIndicator mod = new MoodIndicator();
@@ -2536,14 +2536,14 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		try {
 
 			List<Object[]> data = session.createNativeQuery("select s.notice_id,n.intended_for,d.dept_name,s.title,"
-					+ "s.notice_message,DATE_FORMAT(s.notice_period, \"%Y-%m-%d\") AS notice_period,\r\n"
-					+ "e.first_name,e.last_name,DATE_FORMAT(s.created_date, \"%Y-%m-%d\") as created_date\r\n"
-					+ "from notice_intended_for n \r\n"
-					+ "INNER JOIN tbl_notice_setup s ON n.notice_id = s.notice_id\r\n"
-					+ "INNER JOIN master_department d ON n.intended_for = d.dept_id\r\n"
-					+ "INNER JOIN tbl_employee_details e ON e.emp_id = s.created_by \r\n"
-					+ "WHERE d.dept_id=:deptId  AND s.branch_id=:branchId "
-					+ "AND  DATE_FORMAT(NOW(), \"%Y-%m-%d\") <=  DATE_FORMAT(s.notice_period, \"%Y-%m-%d\");\r\n" + "")
+							+ "s.notice_message,DATE_FORMAT(s.notice_period, \"%Y-%m-%d\") AS notice_period,\r\n"
+							+ "e.first_name,e.last_name,DATE_FORMAT(s.created_date, \"%Y-%m-%d\") as created_date\r\n"
+							+ "from notice_intended_for n \r\n"
+							+ "INNER JOIN tbl_notice_setup s ON n.notice_id = s.notice_id\r\n"
+							+ "INNER JOIN master_department d ON n.intended_for = d.dept_id\r\n"
+							+ "INNER JOIN tbl_employee_details e ON e.emp_id = s.created_by \r\n"
+							+ "WHERE d.dept_id=:deptId  AND s.branch_id=:branchId "
+							+ "AND  DATE_FORMAT(NOW(), \"%Y-%m-%d\") <=  DATE_FORMAT(s.notice_period, \"%Y-%m-%d\");\r\n" + "")
 					.setParameter("branchId", branchId).setParameter("deptId", deptId).getResultList();
 
 			for (Object[] obj : data) {
@@ -2808,7 +2808,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	 * PREPARING DATA( SUBJECT & BODY ) TO SEND EMAILS
 	 ***/
 	private void itrateFeedbackDataListWithPrepareEmailBody(List<Object[]> data, EmailTemplateMaster messageContent,
-			Feedback feedback, Map<String, Object> res, List<MailDTO> mailList) {
+															Feedback feedback, Map<String, Object> res, List<MailDTO> mailList) {
 		if (data == null || data.isEmpty())
 			itrateFeedbackDataList(null, data, messageContent, feedback, res);
 
@@ -2825,7 +2825,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	 * ITERATE FEEDBACK LIST TO PREPARING DATA( SUBJECT & BODY ) TO SEND EMAILS
 	 ***/
 	private void itrateFeedbackDataList(Object[] row, List<Object[]> data, EmailTemplateMaster messageContent,
-			Feedback feedback, Map<String, Object> res) {
+										Feedback feedback, Map<String, Object> res) {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		// *******************ORG USER QUERY*****************************//
@@ -2951,6 +2951,10 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		obj.setConcernPendingCount(concernPendingList != null ? concernPendingList.size() : 0);
 		obj.setConcernPendingList(concernPendingList != null ? concernPendingList : null);
 
+		List<HashMap<String, Object>> skillmatrixPendingList = getPendingSkillmatrixList(empId, session);
+		obj.setSkillmatrixPendingCount(skillmatrixPendingList != null ? skillmatrixPendingList.size() : 0);
+		obj.setSkillmatrixPendingList(skillmatrixPendingList != null ? skillmatrixPendingList : null);
+
 		// int concernCount = getPendingConcernCount(empId, session);
 
 		if (obj.getPendingSuggCount() == 0 && obj.getSkillBookCount() == 0 && obj.getPmsCount() == 0
@@ -3021,6 +3025,60 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 			}
 		} else {
 			LOGGER.info("# Concern list is empty - size --> " + tupleList.size());
+		}
+		return list;
+	}
+
+	private List<HashMap<String, Object>> getPendingSkillmatrixList(int empId, Session session) {
+		LOGGER.info("# Inside getPendingSkillmatrixList Dao - Emp ID -> " + empId);
+		List<HashMap<String, Object>> list = new ArrayList<>();
+		List<Tuple> tupleList = (List<Tuple>) session.createNativeQuery(
+				"SELECT audit.id as auditId, " +
+						"ed.emp_id as empId, " +
+						"concat(ifnull(ed.first_name,''),' ',ifnull(ed.last_name,'')) as empName, " +
+						"md.dept_name as department, " +
+						"l.name as cell, " +
+						"ws.workstation as workstation, " +
+						"audit.skilling_id as skillingId, " +
+						"ojtSkilling.ojt_regis_id as ojtRegisId, " +
+						"audit.status as skillingStatus, " +
+						"ojtSkilling.status as skillingTitle, " +
+						"ojtCheckseet.day_no as skillingNumber, " +
+						"mut.user_type as userType " +
+						"FROM sm_ojt_skilling_audit audit " +
+						"INNER JOIN sm_ojt_skilling ojtSkilling ON ojtSkilling.id = audit.skilling_id " +
+						"INNER JOIN sm_ojt_skilling_checksheet ojtCheckseet ON ojtCheckseet.id = audit.skilling_checksheet_id " +
+						"INNER JOIN sm_ojt_regis regis ON regis.id = ojtSkilling.ojt_regis_id " +
+						"INNER JOIN tbl_employee_details ed ON audit.emp_id = ed.emp_id " +
+						"LEFT JOIN master_department md ON ed.dept_id = md.dept_id " +
+						"LEFT JOIN dwm_line l ON ed.line_id = l.id " +
+						"LEFT JOIN sm_workstations ws ON regis.workstation_id = ws.id " +
+						"LEFT JOIN sm_user_type ut ON ed.emp_id = ut.emp_id AND ut.is_active = 1 " +
+						"LEFT JOIN sm_master_user_type mut ON ut.user_type_id = mut.id " +
+						"WHERE audit.emp_id = :empId AND audit.status = 'PENDING' " +
+						"GROUP BY audit.id, ed.emp_id, ed.first_name, ed.last_name, md.dept_name, l.name, ws.workstation, " +
+						"audit.skilling_id, ojtSkilling.ojt_regis_id, audit.status, ojtSkilling.status, ojtCheckseet.day_no",
+				Tuple.class).setParameter("empId", empId).getResultList();
+
+		if (CollectionUtils.isNotEmpty(tupleList)) {
+			LOGGER.info("# Skill matrix list is not empty - size --> " + tupleList.size());
+			for (Tuple x : tupleList) {
+				HashMap<String, Object> obj = new HashMap<String, Object>();
+				obj.put("empId", CommonUtils.objectToInt(x.get("empId")));
+				obj.put("empName", CommonUtils.objectToString(x.get("empName")));
+				obj.put("department", CommonUtils.objectToString(x.get("department")));
+				obj.put("cell", CommonUtils.objectToString(x.get("cell")));
+				obj.put("workstation", CommonUtils.objectToString(x.get("workstation")));
+				obj.put("skillingId", CommonUtils.objectToInt(x.get("skillingId")));
+				obj.put("ojtRegisId", CommonUtils.objectToInt(x.get("ojtRegisId")));
+				obj.put("skillingStatus", CommonUtils.objectToString(x.get("skillingStatus")));
+				obj.put("skillingTitle", CommonUtils.objectToString(x.get("skillingTitle")));
+				obj.put("skillingNumber", CommonUtils.objectToString(x.get("skillingNumber")));
+				obj.put("userType", CommonUtils.objectToString(x.get("userType")));
+				list.add(obj);
+			}
+		} else {
+			LOGGER.info("# Skill matrix list is empty - size --> " + tupleList.size());
 		}
 		return list;
 	}
@@ -3482,7 +3540,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferConcernPendingAction(Session session, int empId, int transferTo, int concernId) {
 		LOGGER.info("# Inside transferConcernPendingAction Dao ");
 		int concernRowAffected = session.createNativeQuery(
-				"update concern_details set under_action=:transferTo where under_action=:empId and concern_id=:concernId")
+						"update concern_details set under_action=:transferTo where under_action=:empId and concern_id=:concernId")
 				.setParameter("concernId", concernId).setParameter("empId", empId)
 				.setParameter("transferTo", transferTo).executeUpdate();
 		LOGGER.info("# concern_details | Row affected - " + concernRowAffected);
@@ -3512,7 +3570,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferDWMPendingAction(Session session, int empId, int transferTo, int dwmId) {
 		LOGGER.info("# Inside transferDWMPendingAction Dao ");
 		int dwmActStsAdtRowAffected = session.createNativeQuery(
-				"update dwm_status_audit set emp_id=:transferTo where action_status='PENDING' AND emp_id=:empId and dwm_id=:dwmId")
+						"update dwm_status_audit set emp_id=:transferTo where action_status='PENDING' AND emp_id=:empId and dwm_id=:dwmId")
 				.setParameter("dwmId", dwmId).setParameter("empId", empId).setParameter("transferTo", transferTo)
 				.executeUpdate();
 		LOGGER.info("# dwm_status_audit | Row affected - " + dwmActStsAdtRowAffected);
@@ -3525,7 +3583,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferTPMPendingAction(Session session, int empId, int transferTo, int tpmId) {
 		LOGGER.info("# Inside transferTPMPendingAction Dao ");
 		int tpmActStsAdtRowAffected = session.createNativeQuery(
-				"update tag_status_audit set emp_id=:transferTo where action_status='PENDING' AND emp_id=:empId and tag_id=:tpmId")
+						"update tag_status_audit set emp_id=:transferTo where action_status='PENDING' AND emp_id=:empId and tag_id=:tpmId")
 				.setParameter("tpmId", tpmId).setParameter("empId", empId).setParameter("transferTo", transferTo)
 				.executeUpdate();
 		LOGGER.info("# tag_status_audit | Row affected - " + tpmActStsAdtRowAffected);
@@ -3538,7 +3596,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferKuberPendingAction(Session session, int empId, int transferTo, int projectId) {
 		LOGGER.info("# Inside transferKuberPendingAction Dao ");
 		int kuberActStsAdtRowAffected = session.createNativeQuery(
-				"update kuber_status_audit set emp_id=:transferTo where action_status='PENDING' AND emp_id=:empId and project_id=:projectId")
+						"update kuber_status_audit set emp_id=:transferTo where action_status='PENDING' AND emp_id=:empId and project_id=:projectId")
 				.setParameter("projectId", projectId).setParameter("empId", empId)
 				.setParameter("transferTo", transferTo).executeUpdate();
 		LOGGER.info("# kuber_status_audit | Row affected - " + kuberActStsAdtRowAffected);
@@ -3562,7 +3620,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferAuditPendingAction(Session session, int empId, int transferTo, int auditId) {
 		LOGGER.info("# Inside transferAuditPendingAction Dao ");
 		int auditActStsAdtRowAffected = session.createNativeQuery(
-				"update audit_action_status set emp_id=:transferTo where action_status = 'PENDING' AND emp_id=:empId and inspection_id=:auditId")
+						"update audit_action_status set emp_id=:transferTo where action_status = 'PENDING' AND emp_id=:empId and inspection_id=:auditId")
 				.setParameter("auditId", auditId).setParameter("empId", empId).setParameter("transferTo", transferTo)
 				.executeUpdate();
 		LOGGER.info("# audit_action_status | Row affected - " + auditActStsAdtRowAffected);
@@ -3583,13 +3641,13 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferPmsPendingAction(Session session, int empId, int transferTo, int pmsId) {
 		LOGGER.info("# Inside transferPmsPendingAction Dao ");
 		int pmsStsAdtRowAffected = session.createNativeQuery(
-				"UPDATE pms_yearly_appraisal_form_sts_audit SET emp_id=:transferTo WHERE emp_id=:empId and action_status = 'PENDING' and appraisal_form_id=:pmsId")
+						"UPDATE pms_yearly_appraisal_form_sts_audit SET emp_id=:transferTo WHERE emp_id=:empId and action_status = 'PENDING' and appraisal_form_id=:pmsId")
 				.setParameter("pmsId", pmsId).setParameter("empId", empId).setParameter("transferTo", transferTo)
 				.executeUpdate();
 		LOGGER.info("# pms_yearly_appraisal_form_sts_audit | Row affected - " + pmsStsAdtRowAffected);
 		int pmsRowAffected = session.createNativeQuery("UPDATE pms_yearly_appraisal_form_det ps \r\n"
-				+ "inner join pms_yearly_appraisal_form_sts_audit psa on ps.id = psa.appraisal_form_id\r\n"
-				+ "set ps.assinged_to_id=:transferTo WHERE ps.assinged_to_id=:empId and psa.action_status = 'PENDING' and ps.id=:pmsId")
+						+ "inner join pms_yearly_appraisal_form_sts_audit psa on ps.id = psa.appraisal_form_id\r\n"
+						+ "set ps.assinged_to_id=:transferTo WHERE ps.assinged_to_id=:empId and psa.action_status = 'PENDING' and ps.id=:pmsId")
 				.setParameter("pmsId", pmsId).setParameter("empId", empId).setParameter("transferTo", transferTo)
 				.executeUpdate();
 		LOGGER.info("# pms_yearly_appraisal_form_det | Row affected - " + pmsRowAffected);
@@ -3601,13 +3659,13 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	private void transferSkillBookPendingAction(Session session, int empId, int transferTo, int perfSheetId) {
 		LOGGER.info("# Inside transferSkillBookPendingAction Dao ");
 		int psheetStsAdtRowAffected = session.createNativeQuery(
-				"UPDATE pms_monthly_perf_sts_audit SET emp_id=:transferTo WHERE emp_id=:empId and action_status='PENDING' and perf_sheet_id=:perfSheetId")
+						"UPDATE pms_monthly_perf_sts_audit SET emp_id=:transferTo WHERE emp_id=:empId and action_status='PENDING' and perf_sheet_id=:perfSheetId")
 				.setParameter("perfSheetId", perfSheetId).setParameter("empId", empId)
 				.setParameter("transferTo", transferTo).executeUpdate();
 		LOGGER.info("# pms_monthly_perf_sts_audit | Row affected - " + psheetStsAdtRowAffected);
 		int psRowAffected = session.createNativeQuery("UPDATE pms_monthly_performance_sheet ps \r\n"
-				+ "inner join pms_monthly_perf_sts_audit psa on ps.id = psa.perf_sheet_id\r\n"
-				+ "set ps.assinged_to_id=:transferTo WHERE ps.assinged_to_id=:empId and psa.action_status = 'PENDING' and ps.id=:perfSheetId")
+						+ "inner join pms_monthly_perf_sts_audit psa on ps.id = psa.perf_sheet_id\r\n"
+						+ "set ps.assinged_to_id=:transferTo WHERE ps.assinged_to_id=:empId and psa.action_status = 'PENDING' and ps.id=:perfSheetId")
 				.setParameter("perfSheetId", perfSheetId).setParameter("empId", empId)
 				.setParameter("transferTo", transferTo).executeUpdate();
 		LOGGER.info("# pms_monthly_performance_sheet | Row affected - " + psRowAffected);
@@ -3625,8 +3683,8 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 				.setParameter("transferTo", transferTo).executeUpdate();
 		LOGGER.info("# incident_audit_status | Row affected - " + incStsAdtRowAffected);
 		int incRowAffected = session.createNativeQuery("UPDATE incident_details id \r\n"
-				+ "inner join incident_audit_status ia on ia.ince_id = id.ince_id\r\n"
-				+ "set id.assigned_to=:transferTo WHERE id.assigned_to=:empId and ia.action_status = 'PENDING' and  id.ince_id=:incidentId")
+						+ "inner join incident_audit_status ia on ia.ince_id = id.ince_id\r\n"
+						+ "set id.assigned_to=:transferTo WHERE id.assigned_to=:empId and ia.action_status = 'PENDING' and  id.ince_id=:incidentId")
 				.setParameter("incidentId", incidentId).setParameter("empId", empId)
 				.setParameter("transferTo", transferTo).executeUpdate();
 		LOGGER.info("# incident_details | Row affected - " + incRowAffected);
@@ -3635,29 +3693,29 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 
 	/**
 	 * @author Vinay B. Dec 27, 2021 3:56:11 PM
-	 * @param i
+	 * @param 
 	 */
 	private void transferSuggestionPendingAction(Session session, int empId, int transferTo, int sugId) {
 		LOGGER.info("# Inside transferSuggestionPendingAction Dao ");
 
 		// Update sugg tracker table - if sugg is pending with role Evaluator
 		int trackerRowAffectedEval = session.createNativeQuery("UPDATE tbl_sugession_tracker_details track\r\n"
-				+ " inner join sugesstion_status_audit ssa on (track.sug_id=ssa.sug_id and  track.team_type_id=1)\r\n"
-				+ " inner join master_status msts  on msts.status_id=ssa.sts_id\r\n"
-				+ " SET track.emp_id=:transferTo \r\n"
-				+ " where track.sug_id=:sugId and ssa.emp_id=:empId  and ssa.action_status='PENDING'\r\n"
-				+ " and msts.role_id in (8)").setParameter("empId", empId).setParameter("sugId", sugId)
+						+ " inner join sugesstion_status_audit ssa on (track.sug_id=ssa.sug_id and  track.team_type_id=1)\r\n"
+						+ " inner join master_status msts  on msts.status_id=ssa.sts_id\r\n"
+						+ " SET track.emp_id=:transferTo \r\n"
+						+ " where track.sug_id=:sugId and ssa.emp_id=:empId  and ssa.action_status='PENDING'\r\n"
+						+ " and msts.role_id in (8)").setParameter("empId", empId).setParameter("sugId", sugId)
 				.setParameter("transferTo", transferTo).executeUpdate();
 
 		LOGGER.info("# tbl_sugession_tracker_details | Row affected (Evaluator) - " + trackerRowAffectedEval);
 
 		// Update sugg tracker table - if sugg is pending with role Implementer
 		int trackerRowAffectedImpl = session.createNativeQuery(" UPDATE tbl_sugession_tracker_details track\r\n"
-				+ " inner join sugesstion_status_audit ssa on (track.sug_id=ssa.sug_id and  track.team_type_id=2)\r\n"
-				+ " inner join master_status msts  on msts.status_id=ssa.sts_id\r\n"
-				+ " SET track.emp_id=:transferTo \r\n"
-				+ " where track.sug_id=:sugId and ssa.emp_id=:empId  and ssa.action_status='PENDING'\r\n"
-				+ " and msts.role_id in (9)").setParameter("empId", empId).setParameter("transferTo", transferTo)
+						+ " inner join sugesstion_status_audit ssa on (track.sug_id=ssa.sug_id and  track.team_type_id=2)\r\n"
+						+ " inner join master_status msts  on msts.status_id=ssa.sts_id\r\n"
+						+ " SET track.emp_id=:transferTo \r\n"
+						+ " where track.sug_id=:sugId and ssa.emp_id=:empId  and ssa.action_status='PENDING'\r\n"
+						+ " and msts.role_id in (9)").setParameter("empId", empId).setParameter("transferTo", transferTo)
 				.setParameter("sugId", sugId).executeUpdate();
 		LOGGER.info("# tbl_sugession_tracker_details | Row affected (Implementer) - " + trackerRowAffectedImpl);
 
@@ -3784,7 +3842,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		try {
 			EmailTemplateMaster messageContent = enoConfig.getMessageContent(EnovationConstants.MASTER_EMAIL_TEMPLATE);
 			List<Object[]> empDetails = session.createNativeQuery(
-					"select e.emp_id,e.email_id,CONCAT(e.first_name,' ',e.last_name) as employeeName,e.branch_id,e.cmpy_emp_id,contact_no from tbl_employee_details e where e.email_id=:userCred or e.cmpy_emp_id=:userCred or e.contact_no=:userCred")
+							"select e.emp_id,e.email_id,CONCAT(e.first_name,' ',e.last_name) as employeeName,e.branch_id,e.cmpy_emp_id,contact_no from tbl_employee_details e where e.email_id=:userCred or e.cmpy_emp_id=:userCred or e.contact_no=:userCred")
 					.setParameter("userCred", dto.getUserCred()).getResultList();
 
 			for (Object obj[] : empDetails) {
@@ -3798,12 +3856,12 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 							.replaceAll(Pattern.quote("{mobile_no}"), String.valueOf(obj[5]));
 				}
 				List<Object[]> superAdmin = session.createNativeQuery(
-						"select CONCAT(e.first_name,' ',e.last_name) as superAdminName,e.email_id,o.portal_link from tbl_employee_details e\r\n"
-								+ "inner join emp_roles er on er.emp_id=e.emp_id\r\n"
-								+ "inner join roles r on (r.id=er.role_id and er.role_id=:superAdminRoleId)\r\n"
-								+ "inner join master_branch b on b.branch_id=e.branch_id\r\n"
-								+ "inner join master_organization o on o.org_id=b.org_id\r\n"
-								+ "where b.branch_id=:branchId")
+								"select CONCAT(e.first_name,' ',e.last_name) as superAdminName,e.email_id,o.portal_link from tbl_employee_details e\r\n"
+										+ "inner join emp_roles er on er.emp_id=e.emp_id\r\n"
+										+ "inner join roles r on (r.id=er.role_id and er.role_id=:superAdminRoleId)\r\n"
+										+ "inner join master_branch b on b.branch_id=e.branch_id\r\n"
+										+ "inner join master_organization o on o.org_id=b.org_id\r\n"
+										+ "where b.branch_id=:branchId")
 						.setParameter("branchId", branchId)
 						.setParameter("superAdminRoleId", EnovationConstants.SUPER_ADMIN).getResultList();
 
@@ -3838,8 +3896,8 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} /*
-			 * finally { taskExecutor.execute(new MailUtil(mailList, communication)); }
-			 */
+		 * finally { taskExecutor.execute(new MailUtil(mailList, communication)); }
+		 */
 
 		return flag;
 
@@ -3990,8 +4048,8 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		List<Line> lineList = new ArrayList<>();
 
 		List<Object[]> objList = session.createNativeQuery(
-				" select line.id,line.name,md.dept_id from dwm_line line inner join  master_department md on md.dept_id=line.dept_id "
-						+ " where md.org_id=:orgId AND md.branch_id=:branchId ")
+						" select line.id,line.name,md.dept_id from dwm_line line inner join  master_department md on md.dept_id=line.dept_id "
+								+ " where md.org_id=:orgId AND md.branch_id=:branchId ")
 				.setParameter("orgId", orgId).setParameter("branchId", branchId).getResultList();
 
 		if (objList != null && !objList.isEmpty()) {
@@ -4039,7 +4097,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private List<EmployeeDetails> readNDWriteToEmployeeList(DataFormatter formatter, Sheet sheet,
-			FormulaEvaluator evaluator) {
+															FormulaEvaluator evaluator) {
 		LOGGER.info("IN Dao | readNDWriteToEmployeeList ");
 		List<EmployeeDetails> empList = new ArrayList<>();
 		for (int j = 0; j < sheet.getLastRowNum() + 1; j++) {
@@ -4147,8 +4205,8 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private List<EmployeeDetails> validateEmployeeDetails(Session session, List<EmployeeDetails> empList,
-			EmployeeDTO request, List<DepartmentMaster> deptMasterList, List<Line> lineMasterList,
-			List<EmployeeHierarchy> empLevel) {
+														  EmployeeDTO request, List<DepartmentMaster> deptMasterList, List<Line> lineMasterList,
+														  List<EmployeeHierarchy> empLevel) {
 		LOGGER.info("IN Dao | validateEmployeeDetails ");
 		List<EmployeeDetails> errorList = new ArrayList<>();
 
@@ -4311,7 +4369,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private boolean saveEmployeeDetails(EmployeeDTO request, List<EmployeeDetails> empList, Session session,
-			List<DepartmentMaster> deptMasterList) {
+										List<DepartmentMaster> deptMasterList) {
 		LOGGER.info("IN Dao | saveEmployeeDetails ");
 		boolean flag = false;
 
@@ -4359,7 +4417,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private boolean processEmpData(EmployeeDTO request, Sheet sheet, DataFormatter formatter,
-			FormulaEvaluator evaluator, Session session, EmployeeDTO dto) {
+								   FormulaEvaluator evaluator, Session session, EmployeeDTO dto) {
 		boolean flag = false;
 		int empListFlag = validateEmpListSheet(sheet);
 		EmployeeDTO empObj = new EmployeeDTO();
@@ -4394,7 +4452,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private void readEmpListData(EmployeeDTO request, Sheet sheet, DataFormatter formatter, FormulaEvaluator evaluator,
-			Session session, EmployeeDTO dto, EmployeeDTO empObj, List<DepartmentMaster> deptMasterList) {
+								 Session session, EmployeeDTO dto, EmployeeDTO empObj, List<DepartmentMaster> deptMasterList) {
 		List<EmployeeDetails> empList = new ArrayList<>();
 		List<EmployeeDTO> errorLists = new ArrayList<>();
 
@@ -4552,7 +4610,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private void saveOrUpdateEmpListData(Session session, EmployeeDTO request, EmployeeDTO empObj,
-			List<DepartmentMaster> deptMasterList) {
+										 List<DepartmentMaster> deptMasterList) {
 		LOGGER.info("In Employee Dao | saveOrUpdateEmpListData ");
 
 		List<EmployeeDetails> existingEmpData = session
@@ -4638,7 +4696,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 	}
 
 	private EmployeeDetails checkIfDataExist(EmployeeDetails x, List<EmployeeDetails> existingEmpData,
-			EmployeeDTO request) {
+											 EmployeeDTO request) {
 		EmployeeDetails empObj = null;
 		if (existingEmpData != null && !existingEmpData.isEmpty()) {
 
