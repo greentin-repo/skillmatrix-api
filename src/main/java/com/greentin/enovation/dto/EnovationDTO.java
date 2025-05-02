@@ -21,6 +21,10 @@ public class EnovationDTO {
 
 	private int stageId;
 
+	private int skillingId;
+
+	private int ojtRegistrationId;
+
 	private List<HashMap<String, List<EnovationDTO>>> data;
 
 	public int getId() {
@@ -61,5 +65,21 @@ public class EnovationDTO {
 
 	public void setStageId(int stageId) {
 		this.stageId = stageId;
+	}
+
+	public int getSkillingId() {
+		return skillingId;
+	}
+
+	public void setSkillingId(int skillingId) {
+		this.skillingId = skillingId;
+	}
+
+	public int getOjtRegistrationId() {
+		return ojtRegistrationId;
+	}
+
+	public void setOjtRegistrationId(int ojtRegistrationId) {
+		this.ojtRegistrationId = ojtRegistrationId;
 	}
 }

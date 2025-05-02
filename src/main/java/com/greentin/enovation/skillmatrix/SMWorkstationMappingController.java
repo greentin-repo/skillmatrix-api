@@ -59,45 +59,40 @@ public class SMWorkstationMappingController {
      * Update an existing workstation mapping
      */
     @PostMapping(value = "/update")
-    public SkillMatrixResponse updateMapping(@RequestBody SMWorkstationMapping mapping) {
+    public SkillMatrixResponse updateMapping(@RequestBody WorkstationMappingRequest request) {
         LOGGER.info("# SMWorkstationMappingController || updateMapping");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {
-            SMWorkstationMapping updatedMapping = mappingService.updateMapping(mapping);
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("mapping", updatedMapping);
+            mappingService.updateMappings(request);
             response.setStatus("success");
             response.setStatusCode(200);
             response.setResult(true);
-            response.setData(data);
+            response.setReason("Workstation Mapping updated successfully");
         } catch (Exception e) {
-            LOGGER.error("Error updating workstation mapping: {}", e.getMessage());
+            LOGGER.error("Error updating workstation mappings: {}", e.getMessage());
             response.setStatus("error");
             response.setStatusCode(500);
             response.setResult(false);
-            response.setReason("Error updating workstation mapping: " + e.getMessage());
+            response.setReason("Error updating workstation mappings: " + e.getMessage());
         }
         return response;
     }
 
-    /**
-     * Delete a workstation mapping
-     */
-    @DeleteMapping(value = "/delete/{id}")
-    public SkillMatrixResponse deleteMapping(@PathVariable("id") Long id) {
-        LOGGER.info("# SMWorkstationMappingController || deleteMapping");
+    @DeleteMapping(value = "/delete-by-parent/{parentWorkstationId}")
+    public SkillMatrixResponse deleteMappingsByParentWorkstation(@PathVariable("parentWorkstationId") long parentWorkstationId) {
+        LOGGER.info("# SMWorkstationMappingController || deleteMappingsByParentWorkstation");
         SkillMatrixResponse response = new SkillMatrixResponse();
         try {
-            mappingService.deleteMapping(id);
+            mappingService.deleteMappingsByParentWorkstationId(parentWorkstationId);
             response.setStatus("success");
             response.setStatusCode(200);
             response.setResult(true);
         } catch (Exception e) {
-            LOGGER.error("Error deleting workstation mapping: {}", e.getMessage());
+            LOGGER.error("Error deleting workstation mappings by parent: {}", e.getMessage());
             response.setStatus("error");
             response.setStatusCode(500);
             response.setResult(false);
-            response.setReason("Error deleting workstation mapping: " + e.getMessage());
+            response.setReason("Error deleting workstation mappings by parent: " + e.getMessage());
         }
         return response;
     }

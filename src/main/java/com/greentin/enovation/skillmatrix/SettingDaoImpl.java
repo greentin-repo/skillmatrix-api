@@ -2920,42 +2920,40 @@ public class SettingDaoImpl extends BaseRepository implements SettingIDao {
 	public List<HashMap<String, Object>> getAllWorkstationMapping() {
 		LOGGER.info("# SettingDaoImpl | getAllWorkstationMapping");
 		Session session = getCurrentSession();
-
+	
 		StringBuilder sql = new StringBuilder(
-			"SELECT wm.parent_workstation_id as parentWorkstationId, " +
-			"parent.workstation as parentWorkstationName, " +
-			"wm.branch_id as branchId, b.name as branchName, " +
-			"wm.dept_id as deptId, d.dept_name as deptName, " +
-			"wm.line_id as lineId, l.name as lineName, " +
-			"wm.is_active as isActive, " +
-			"wm.created_by as createdBy, wm.created_date as createdDate, " +
-			"wm.updated_by as updatedBy, wm.updated_date as updatedDate, " +
-			"CONCAT('[', GROUP_CONCAT(DISTINCT " +
-			"  JSON_OBJECT(" +
-			"    'childWorkstationId', wm.child_workstation_id, " +
-			"    'childWorkstationName', child.workstation" +
-			"  )" +
-			"), ']') as childWorkstations " +
+			"SELECT " +
+			"  wm.branch_id AS branchId, b.name AS branchName, " +
+			"  wm.dept_id AS deptId, d.dept_name AS deptName, " +
+			"  wm.line_id AS lineId, l.name AS lineName, " +
+			"  wm.parent_workstation_id AS parentWorkstationId, " +
+			"  parent.workstation AS parentWorkstationName, " +
+			"  MAX(wm.created_by) AS createdBy, MAX(wm.created_date) AS createdDate, " +
+			"  MAX(wm.updated_by) AS updatedBy, MAX(wm.updated_date) AS updatedDate, " +
+			"  wm.is_active AS isActive, " +
+			"  CAST(JSON_ARRAYAGG( " +
+			"    JSON_OBJECT( " +
+			"      'childWorkstationId', wm.child_workstation_id, " +
+			"      'childWorkstationName', child.workstation " +
+			"    ) " +
+			"  ) AS CHAR) AS childWorkstations " +  // Cast to CHAR to avoid issues in Hibernate Tuple
 			"FROM sm_workstation_mapping wm " +
-			"INNER JOIN sm_workstations parent ON parent.id = wm.parent_workstation_id " +
-			"INNER JOIN sm_workstations child ON child.id = wm.child_workstation_id " +
-			"INNER JOIN master_branch b ON b.branch_id = wm.branch_id " +
-			"INNER JOIN master_department d ON d.dept_id = wm.dept_id " +
-			"INNER JOIN dwm_line l ON l.id = wm.line_id " +
+			"JOIN sm_workstations parent ON parent.id = wm.parent_workstation_id " +
+			"JOIN sm_workstations child ON child.id = wm.child_workstation_id " +
+			"JOIN master_branch b ON b.branch_id = wm.branch_id " +
+			"JOIN master_department d ON d.dept_id = wm.dept_id " +
+			"JOIN dwm_line l ON l.id = wm.line_id " +
 			"WHERE wm.is_active = 1 " +
-			"GROUP BY wm.parent_workstation_id, parent.workstation, " +
-			"wm.branch_id, b.name, wm.dept_id, d.dept_name, " +
-			"wm.line_id, l.name, wm.is_active, " +
-			"wm.created_by, wm.created_date, wm.updated_by, wm.updated_date " +
-			"HAVING COUNT(wm.child_workstation_id) > 0 " +
-			"ORDER BY wm.parent_workstation_id DESC");
-
+			"GROUP BY wm.branch_id, b.name, wm.dept_id, d.dept_name, " +
+			"  wm.line_id, l.name, wm.parent_workstation_id, parent.workstation, wm.is_active " +
+			"ORDER BY wm.branch_id, wm.parent_workstation_id DESC"
+		);
+		
+	
 		Query query = session.createNativeQuery(sql.toString(), Tuple.class);
 		List<Tuple> tupleList = query.getResultList();
-		if (!CollectionUtils.isEmpty(tupleList)) {
-			return CommonUtils.parseTupleList(tupleList);
-		}
-		return null;
-	}
+	
+		return CollectionUtils.isEmpty(tupleList) ? null : CommonUtils.parseTupleList(tupleList);
+	}	
 
 }

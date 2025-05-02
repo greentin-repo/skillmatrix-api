@@ -11,7 +11,9 @@ public interface SMWorkstationMappingService {
     List<SMWorkstationMapping> saveMappings(WorkstationMappingRequest request);
     SMWorkstationMapping saveMapping(SMWorkstationMapping mapping);
     SMWorkstationMapping updateMapping(SMWorkstationMapping mapping);
+    List<SMWorkstationMapping> updateMappings(WorkstationMappingRequest request);
     void deleteMapping(long id);
+    void deleteMappingsByParentWorkstationId(long parentWorkstationId);
     SMWorkstationMapping getMappingById(long id);
     List<SMWorkstationMapping> getAllMappings();
     List<SMWorkstationMapping> getMappingsByParentWorkstation(long parentWorkstationId);

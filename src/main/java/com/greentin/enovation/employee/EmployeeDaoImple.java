@@ -3508,7 +3508,7 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 						LOGGER.info("# Transfer Action List Size --> " + e.getValue().size());
 						if (CollectionUtils.isNotEmpty(e.getValue())) {
 							e.getValue().stream().forEach(x -> {
-								transferSkillMatrixPendingAction(session, x.getEmpId(), x.getTransferTo(), x.getId(),x.getStageId());
+								transferSkillMatrixPendingAction(session, x.getEmpId(), x.getTransferTo(), x.getSkillingId(),x.getStageId(),x.getOjtRegistrationId());
 							});
 							flag = true;
 						}
@@ -3549,21 +3549,22 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 
 	}
 
-	private void transferSkillMatrixPendingAction(Session session, int empId, int transferTo, int skillingId,int stageId) {
+	private void transferSkillMatrixPendingAction(Session session, int empId, int transferTo, int skillingId, int stageId, int ojtRegistrationId) {
 		LOGGER.info("# Inside transferSkillMatrixPendingAction Dao ");
 
 		// Update empId in sm_ojt_skilling_audit table
 		int skillingAuditRowAffected = session.createNativeQuery(
 						"UPDATE sm_ojt_skilling_audit SET emp_id = :transferTo " +
-								"WHERE emp_id = :empId AND skilling_id = :skillingId AND status = :status AND stage_id = :stageId")
+								"WHERE emp_id = :empId AND skilling_id = :skillingId AND status = :status AND stage_id = :stageId AND ojt_regis_id = :ojtRegistrationId")
 				.setParameter("empId", empId)
 				.setParameter("transferTo", transferTo)
 				.setParameter("skillingId", skillingId)
-				.setParameter("status", EnovationConstants.PENDING_STRING)
+				.setParameter("status", "PENDING")
 				.setParameter("stageId", stageId)
+				.setParameter("ojtRegistrationId",ojtRegistrationId)
 				.executeUpdate();
 
-		LOGGER.info("# sm_ojt_skilling_audit | Row affected - " + skillingAuditRowAffected);
+		LOGGER.info("# Skill matrix audit row affected -> " + skillingAuditRowAffected);
 	}
 
 	/**

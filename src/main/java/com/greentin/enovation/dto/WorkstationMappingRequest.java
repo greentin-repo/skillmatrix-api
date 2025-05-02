@@ -3,6 +3,7 @@ package com.greentin.enovation.dto;
 import java.util.List;
 
 public class WorkstationMappingRequest {
+    private int id;
     private int orgId;
     private int branchId;
     private long parentWorkstationId;
@@ -65,5 +66,13 @@ public class WorkstationMappingRequest {
 
     public void setLineId(long lineId) {
         this.lineId = lineId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

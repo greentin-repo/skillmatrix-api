@@ -84,8 +84,60 @@ public class SMWorkstationMappingServiceImpl implements SMWorkstationMappingServ
     }
 
     @Override
+    public List<SMWorkstationMapping> updateMappings(WorkstationMappingRequest request) {
+        if (request == null || request.getChildWorkstationId() == null || request.getChildWorkstationId().isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // Fetch existing mappings for the parent workstation
+        List<SMWorkstationMapping> existingMappings = mappingRepository.findByParentWorkstationId(request.getParentWorkstationId());
+        List<Long> existingChildIds = existingMappings.stream()
+                .map(mapping -> mapping.getChildWorkstation().getId())
+                .collect(Collectors.toList());
+
+        // Remove mappings for childWorkstationIds that are not in the request
+        existingMappings.stream()
+                .filter(mapping -> !request.getChildWorkstationId().contains(mapping.getChildWorkstation().getId()))
+                .forEach(mapping -> mappingRepository.delete(mapping));
+
+        // Create new mappings for childWorkstationIds that do not exist
+        List<SMWorkstationMapping> newMappings = request.getChildWorkstationId().stream()
+                .filter(childId -> !existingChildIds.contains(childId))
+                .map(childId -> {
+                    SMWorkstationMapping mapping = new SMWorkstationMapping();
+                    SMWorkstations parentWorkstation = new SMWorkstations();
+                    parentWorkstation.setId(request.getParentWorkstationId());
+                    mapping.setParentWorkstation(parentWorkstation);
+                    SMWorkstations childWorkstation = new SMWorkstations();
+                    childWorkstation.setId(childId);
+                    mapping.setChildWorkstation(childWorkstation);
+                    BranchMaster branch = new BranchMaster(request.getBranchId());
+                    DepartmentMaster dept = new DepartmentMaster(request.getDeptId());
+                    Line line = new Line(request.getLineId());
+                    mapping.setBranch(branch);
+                    mapping.setDept(dept);
+                    mapping.setLine(line);
+                    mapping.setIsActive(true);
+                    mapping.setCreatedBy(0);
+                    mapping.setUpdatedBy(0);
+                    return mappingRepository.save(mapping);
+                })
+                .collect(Collectors.toList());
+
+        // Combine existing and new mappings
+        List<SMWorkstationMapping> allMappings = new ArrayList<>(existingMappings);
+        allMappings.addAll(newMappings);
+        return allMappings;
+    }
+
+    @Override
     public void deleteMapping(long id) {
         mappingRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteMappingsByParentWorkstationId(long parentWorkstationId) {
+        mappingRepository.deleteByParentWorkstationId(parentWorkstationId);
     }
 
     @Override
