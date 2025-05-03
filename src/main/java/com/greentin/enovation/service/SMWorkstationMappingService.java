@@ -1,10 +1,8 @@
 package com.greentin.enovation.service;
 
 import com.greentin.enovation.dto.DeleteWorkstationMappingDTO;
-import com.greentin.enovation.dto.SkillMatrixRequest;
 import com.greentin.enovation.model.skillMatrix.SMWorkstationMapping;
 import com.greentin.enovation.dto.WorkstationMappingRequest;
-import com.greentin.enovation.response.SkillMatrixResponse;
 
 import java.util.List;
 
