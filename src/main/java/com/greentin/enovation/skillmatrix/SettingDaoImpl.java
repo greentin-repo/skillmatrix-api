@@ -2845,4 +2845,115 @@ public class SettingDaoImpl extends BaseRepository implements SettingIDao {
 		return null;
 	}
 
+	public List<HashMap<String, Object>> getWorkstationMappingListByParentWorkstationId(SkillMatrixRequest request, SkillMatrixResponse response) {
+		LOGGER.info("# SettingDaoImpl | getWorkstationMappingList");
+		Session session = getCurrentSession();
+
+		StringBuilder sql = new StringBuilder(
+			"SELECT wm.id as id, wm.parent_workstation_id as parentWorkstationId, " +
+			"parent.workstation as parentWorkstationName, " +
+			"wm.child_workstation_id as childWorkstationId, " +
+			"child.workstation as childWorkstationName, " +
+			"wm.branch_id as branchId, b.name as branchName, " +
+			"wm.dept_id as deptId, d.dept_name as deptName, " +
+			"wm.line_id as lineId, l.name as lineName, " +
+			"wm.is_active as isActive, " +
+			"wm.created_by as createdBy, wm.created_date as createdDate, " +
+			"wm.updated_by as updatedBy, wm.updated_date as updatedDate " +
+			"FROM sm_workstation_mapping wm " +
+			"INNER JOIN sm_workstations parent ON parent.id = wm.parent_workstation_id " +
+			"INNER JOIN sm_workstations child ON child.id = wm.child_workstation_id " +
+			"INNER JOIN master_branch b ON b.branch_id = wm.branch_id " +
+			"INNER JOIN master_department d ON d.dept_id = wm.dept_id " +
+			"LEFT JOIN dwm_line l ON l.id = wm.line_id " +
+			"WHERE wm.is_active = 1 ");
+
+		if (request.getParentWorkstationId() > 0) {
+			sql.append(" AND wm.parent_workstation_id = :parentWorkstationId ");
+		}
+		if (request.getBranchId() > 0) {
+			sql.append(" AND wm.branch_id = :branchId ");
+		}
+		if (request.getDeptId() > 0) {
+			sql.append(" AND wm.dept_id = :deptId ");
+		}
+		if (request.getLineId() > 0) {
+			sql.append(" AND wm.line_id = :lineId ");
+		}
+		if (request.getSearch() != null) {
+			sql.append(" AND (parent.workstation LIKE :search OR child.workstation LIKE :search) ");
+		}
+		
+		sql.append(" ORDER BY wm.id DESC");
+
+		TypedQuery<Tuple> query = session.createNativeQuery(sql.toString(), Tuple.class);
+
+		if (request.getParentWorkstationId() > 0) {
+			query.setParameter("parentWorkstationId", request.getParentWorkstationId());
+		}
+		if (request.getBranchId() > 0) {
+			query.setParameter("branchId", request.getBranchId());
+		}
+		if (request.getDeptId() > 0) {
+			query.setParameter("deptId", request.getDeptId());
+		}
+		if (request.getLineId() > 0) {
+			query.setParameter("lineId", request.getLineId());
+		}
+		if (request.getSearch() != null) {
+			query.setParameter("search", "%" + request.getSearch() + "%");
+		}
+
+		if (request.getLimit() > 0) {
+			query.setFirstResult(request.getOffset()).setMaxResults(request.getLimit());
+		}
+
+		List<Tuple> tupleList = query.getResultList();
+		if (!CollectionUtils.isEmpty(tupleList)) {
+			return CommonUtils.parseTupleList(tupleList);
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getAllWorkstationMapping() {
+		LOGGER.info("# SettingDaoImpl | getAllWorkstationMapping");
+		Session session = getCurrentSession();
+	
+		StringBuilder sql = new StringBuilder(
+			"SELECT " +
+			"  wm.branch_id AS branchId, b.name AS branchName, " +
+			"  wm.dept_id AS deptId, d.dept_name AS deptName, " +
+			"  wm.line_id AS lineId, l.name AS lineName, " +
+			"  wm.parent_workstation_id AS parentWorkstationId, " +
+			"  parent.workstation AS parentWorkstationName, " +
+			"  MAX(wm.created_by) AS createdBy, MAX(wm.created_date) AS createdDate, " +
+			"  MAX(wm.updated_by) AS updatedBy, MAX(wm.updated_date) AS updatedDate, " +
+			"  wm.is_active AS isActive, " +
+			"  CAST(JSON_ARRAYAGG( " +
+			"    JSON_OBJECT( " +
+			"      'childWorkstationId', wm.child_workstation_id, " +
+			"      'childWorkstationName', child.workstation " +
+			"    ) " +
+			"  ) AS CHAR) AS childWorkstations " +  // Cast to CHAR to avoid issues in Hibernate Tuple
+			"FROM sm_workstation_mapping wm " +
+			"JOIN sm_workstations parent ON parent.id = wm.parent_workstation_id " +
+			"JOIN sm_workstations child ON child.id = wm.child_workstation_id " +
+			"JOIN master_branch b ON b.branch_id = wm.branch_id " +
+			"JOIN master_department d ON d.dept_id = wm.dept_id " +
+			"JOIN dwm_line l ON l.id = wm.line_id " +
+			"WHERE wm.is_active = 1 " +
+			"GROUP BY wm.branch_id, b.name, wm.dept_id, d.dept_name, " +
+			"  wm.line_id, l.name, wm.parent_workstation_id, parent.workstation, wm.is_active " +
+			"ORDER BY wm.branch_id, wm.parent_workstation_id DESC"
+		);
+		
+	
+		Query query = session.createNativeQuery(sql.toString(), Tuple.class);
+		List<Tuple> tupleList = query.getResultList();
+	
+		return CollectionUtils.isEmpty(tupleList) ? null : CommonUtils.parseTupleList(tupleList);
+	}	
+
 }

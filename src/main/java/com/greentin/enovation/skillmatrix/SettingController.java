@@ -498,6 +498,20 @@ public class SettingController {
 		return settingService.getWorkstationList(request);
 	}
 
+	@PostMapping(value = "/getWorkstationMappingList/{parentWorkstationId}")
+	public SkillMatrixResponse getWorkstationMappingList(@PathVariable long parentWorkstationId) {
+		LOGGER.info("# SettingController || getWorkstationList ");
+		SkillMatrixRequest request = new SkillMatrixRequest();
+		request.setParentWorkstationId(parentWorkstationId);
+		return settingService.getWorkstationMappingListByParentWorkstationId(request);
+	}
+
+	@GetMapping(value = "/getAllWorkstationMapping")
+	public SkillMatrixResponse getAllWorkstationMapping() {
+		LOGGER.info("# SettingController || getAllWorkstationMapping");
+		return settingService.getAllWorkstationMapping();
+	}
+
 	/**
 	 * @author Sonali L. Aug 08, 2023 03:00:55 PM
 	 * @param request

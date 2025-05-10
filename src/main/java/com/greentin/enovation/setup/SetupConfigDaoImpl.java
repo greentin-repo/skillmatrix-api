@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 
+import com.greentin.enovation.model.skillMatrix.SMOJTRegis;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -662,5 +663,83 @@ public class SetupConfigDaoImpl extends BaseRepository implements SetupConfigDao
 		return flag;
 	}
 
-	
+	@Override
+	@Transactional
+	public boolean deleteOjtRegistration(Integer ojtId) {
+		boolean flag = false;
+		logger.info("INSIDE DELETE OJT REGISTRATION API");
+		Session session = entityManager.unwrap(Session.class);
+		try {
+			// Delete checksheet points audit
+			session.createNativeQuery("DELETE FROM sm_ojt_checksheet_points_audit WHERE skilling_audit_id IN " +
+							"(SELECT id FROM sm_ojt_skilling_audit WHERE ojt_regis_id = :regisId)")
+					.setParameter("regisId", ojtId	)
+					.executeUpdate();
+
+			// Delete checksheet points
+			session.createNativeQuery("DELETE FROM sm_ojt_checksheet_points WHERE skilling_checksheet_id IN " +
+							"(SELECT smsc.id FROM sm_ojt_skilling_checksheet smsc " +
+							"INNER JOIN sm_ojt_skilling sos ON sos.id = smsc.skilling_id " +
+							"WHERE sos.ojt_regis_id = :regisId GROUP BY smsc.id)")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete assessment options
+			session.createNativeQuery("DELETE FROM sm_ojt_assessment_opt WHERE ojt_ass_ques_id IN " +
+							"(SELECT id FROM sm_ojt_assessment_ques WHERE ojt_assessment_id IN " +
+							"(SELECT id FROM sm_ojt_assessment WHERE ojt_regis_id = :regisId))")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete assessment questions
+			session.createNativeQuery("DELETE FROM sm_ojt_assessment_ques WHERE ojt_assessment_id IN " +
+							"(SELECT id FROM sm_ojt_assessment WHERE ojt_regis_id = :regisId)")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete assessments
+			session.createNativeQuery("DELETE FROM sm_ojt_assessment WHERE ojt_regis_id = :regisId")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete cycle plan parameters
+			session.createNativeQuery("DELETE FROM sm_ojt_cycle_plan_parameter WHERE skilling_audit_id IN " +
+							"(SELECT id FROM sm_ojt_skilling_audit WHERE ojt_regis_id = :regisId)")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete skilling parameters
+			session.createNativeQuery("DELETE FROM sm_ojt_skilling_parameter WHERE skilling_audit_id IN " +
+							"(SELECT id FROM sm_ojt_skilling_audit WHERE ojt_regis_id = :regisId)")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete skilling audit
+			session.createNativeQuery("DELETE FROM sm_ojt_skilling_audit WHERE ojt_regis_id = :regisId")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete skilling checksheet
+			session.createNativeQuery("DELETE FROM sm_ojt_skilling_checksheet WHERE skilling_id IN " +
+							"(SELECT id FROM sm_ojt_skilling WHERE ojt_regis_id = :regisId)")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			// Delete skilling
+			session.createNativeQuery("DELETE FROM sm_ojt_skilling WHERE ojt_regis_id = :regisId")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+
+			// Finally delete the main record
+			session.createNativeQuery("DELETE FROM sm_ojt_regis WHERE id = :regisId")
+					.setParameter("regisId", ojtId)
+					.executeUpdate();
+
+			flag = true;
+		} catch (Exception e) {
+			logger.error("ERROR INSIDE DELETE OJT REGISTRATION API: " + e.getMessage());
+		}
+		return flag;
+	}
 }

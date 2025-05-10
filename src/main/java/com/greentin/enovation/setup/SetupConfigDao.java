@@ -8,6 +8,7 @@ import java.util.List;
 import com.greentin.enovation.accesscontrol.ProductOrgConfig;
 import com.greentin.enovation.model.BranchSetupConfig;
 import com.greentin.enovation.model.NoticeSetup;
+import com.greentin.enovation.model.skillMatrix.SMOJTRegis;
 
 public interface SetupConfigDao {
 	
@@ -61,6 +62,7 @@ public interface SetupConfigDao {
 	public boolean isSocialMediaExist(SocialMedia socialMedia);
 
 	boolean updateMandatoryFieldDetails(ProductOrgConfig poc);
-	
+
+	boolean deleteOjtRegistration(Integer ojtId);
 
 }

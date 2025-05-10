@@ -107,7 +107,11 @@ public class EmployeeDTO {
 
 	List<HashMap<String, Object>> concernPendingList;
 
+	private List<HashMap<String, Object>> skillmatrixPendingList;
+
 	private int concernPendingCount;
+
+	private int skillmatrixPendingCount;
 
 	private int tpmPendingCount;
 
@@ -884,5 +888,21 @@ public class EmployeeDTO {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public List<HashMap<String, Object>> getSkillmatrixPendingList() {
+		return skillmatrixPendingList;
+	}
+
+	public void setSkillmatrixPendingList(List<HashMap<String, Object>> skillmatrixPendingList) {
+		this.skillmatrixPendingList = skillmatrixPendingList;
+	}
+
+	public int getSkillmatrixPendingCount() {
+		return skillmatrixPendingCount;
+	}
+
+	public void setSkillmatrixPendingCount(int skillmatrixPendingCount) {
+		this.skillmatrixPendingCount = skillmatrixPendingCount;
 	}
 }

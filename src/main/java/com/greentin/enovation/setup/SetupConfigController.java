@@ -1,6 +1,7 @@
 package com.greentin.enovation.setup;
 
 
+import com.greentin.enovation.dto.DeleteOjtDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -163,6 +164,11 @@ public class SetupConfigController {
 	public Response updateMandatoryFieldDetails(@RequestBody ProductOrgConfig poc) {
 		System.out.println("Inside updateMandatoryFieldDetails");
 		return setupconfigservice.updateMandatoryFieldDetails(poc);	
+	}
+
+	@CrossOrigin
+	@PostMapping(value="/deleteOjtRegistration")
+	public Response deleteOjtRegistration(@RequestBody DeleteOjtDTO deleteOjtDTO) {		return setupconfigservice.deleteOjtRegistration(deleteOjtDTO.getOjtId());
 	}
 	
 }
