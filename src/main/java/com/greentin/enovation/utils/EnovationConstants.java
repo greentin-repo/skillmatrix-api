@@ -1158,6 +1158,7 @@ public class EnovationConstants {
 	public static final String MODULE_TPM = "TPM";
 	public static final String MODULE_DWM = "DWM";
 	public static final String MODULE_CONCERN = "CONCERN";
+	public static final String SKILLMATRIX = "SKILLMATRIX";
 
 	public static final Integer[] INCIDENT_PENDING_STATUS_ID = { 54, 115, 116, 117 };
 
