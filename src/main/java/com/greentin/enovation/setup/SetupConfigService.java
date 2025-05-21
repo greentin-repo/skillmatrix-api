@@ -7,6 +7,7 @@ import com.greentin.enovation.model.NoticeSetup;
 import com.greentin.enovation.model.SetupMaster;
 import com.greentin.enovation.model.SocialMedia;
 import com.greentin.enovation.model.ThresholdSetup;
+import com.greentin.enovation.model.skillMatrix.SMOJTRegis;
 import com.greentin.enovation.response.Response;
 
 public interface SetupConfigService {
@@ -34,5 +35,5 @@ public interface SetupConfigService {
 	public Response deleteThreshold(ThresholdSetup thSetup);
 	public Response deleteNotice(NoticeSetup notice);
 	Response updateMandatoryFieldDetails(ProductOrgConfig poc);
-	
+	Response deleteOjtRegistration(Integer ojtId);
 }
