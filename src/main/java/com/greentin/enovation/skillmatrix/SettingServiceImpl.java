@@ -21,6 +21,7 @@ import com.greentin.enovation.utils.CommonUtils;
 import com.greentin.enovation.utils.EnovationConstants;
 import com.greentin.enovation.utils.EnovationException;
 import com.jcraft.jsch.Session;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Sonali L Aug 7, 2023
@@ -1918,11 +1919,11 @@ public class SettingServiceImpl implements SettingIService {
 	}
 
 	@Override
-	public SkillMatrixResponse getAllWorkstationMapping() {
+	public SkillMatrixResponse getAllWorkstationMapping(SkillMatrixRequest request) {
 		LOGGER.info("# SettingServiceImpl | getAllWorkstationMapping");
 		SkillMatrixResponse response = new SkillMatrixResponse();
 		try {
-			List<HashMap<String, Object>> mappingList = settingDao.getAllWorkstationMapping();
+			List<HashMap<String, Object>> mappingList = settingDao.getAllWorkstationMapping(request,response);
 			if (CollectionUtils.isEmpty(mappingList)) {
 				response = BuildResponse.fail(response);
 				return response;

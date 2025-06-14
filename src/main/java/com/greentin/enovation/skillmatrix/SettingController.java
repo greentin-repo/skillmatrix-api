@@ -506,10 +506,10 @@ public class SettingController {
 		return settingService.getWorkstationMappingListByParentWorkstationId(request);
 	}
 
-	@GetMapping(value = "/getAllWorkstationMapping")
-	public SkillMatrixResponse getAllWorkstationMapping() {
+	@PostMapping(value = "/getAllWorkstationMapping")
+	public SkillMatrixResponse getAllWorkstationMapping(@RequestBody SkillMatrixRequest request) {
 		LOGGER.info("# SettingController || getAllWorkstationMapping");
-		return settingService.getAllWorkstationMapping();
+		return settingService.getAllWorkstationMapping(request);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package com.greentin.enovation.skillmatrix;
 
 import com.greentin.enovation.dto.SkillMatrixRequest;
 import com.greentin.enovation.response.SkillMatrixResponse;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Sonali L Aug 7, 2023
@@ -88,7 +89,7 @@ public interface SettingIService {
 
 	SkillMatrixResponse getWorkstationMappingListByParentWorkstationId(SkillMatrixRequest request);
 
-	SkillMatrixResponse getAllWorkstationMapping();
+	SkillMatrixResponse getAllWorkstationMapping(SkillMatrixRequest request);
 
 	SkillMatrixResponse saveUserType(SkillMatrixRequest request);
 

@@ -55,7 +55,7 @@ public class SMWorkstationMappingServiceImpl implements SMWorkstationMappingServ
                     
                     if (!existingMappings.isEmpty()) {
                         // Skip creating duplicate mapping
-                        return existingMappings.get(0);
+                        throw new IllegalArgumentException("Mapping already exists for parent workstation ID: "+ request.getParentWorkstationId() + " and child workstation ID: " + childId);
                     }
 
                     SMWorkstationMapping mapping = new SMWorkstationMapping();

@@ -171,6 +171,6 @@ public interface SettingIDao {
 
 	List<HashMap<String, Object>> getWorkstationMappingListByParentWorkstationId(SkillMatrixRequest request, SkillMatrixResponse response);
 
-	List<HashMap<String, Object>> getAllWorkstationMapping();
+	List<HashMap<String, Object>> getAllWorkstationMapping(SkillMatrixRequest request,SkillMatrixResponse response);
 
 }
