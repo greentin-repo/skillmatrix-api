@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.greentin.enovation.dto.SkillMatrixRequest;
 import com.greentin.enovation.response.SkillMatrixResponse;
+import com.greentin.enovation.schedulars.SkillMatrixSchedular;
 
 /**
  * @author Sonali L Aug 7, 2023
@@ -27,6 +28,21 @@ public class WorkflowController {
 	@Autowired
 	private WorkflowIService workflowService;
 
+	@Autowired
+	private SkillMatrixSchedular skillSche;
+
+
+	@GetMapping(value = "/test/publishOJT")
+	public void publishOJT() {
+		LOGGER.info("#In WorkflowController |  INSIDE in publishOJT ");
+		skillSche.publishOJT();
+	}
+
+	@GetMapping(value = "/test/assignPreAssessmentScheduler")
+	public void assignPreAssessmentScheduler() {
+		LOGGER.info("#In WorkflowController |  INSIDE in assignPreAssessmentScheduler ");
+		skillSche.assignPreAssessmentScheduler();
+	}
 	/**
 	 * @author Ananta K. August 16, 2023 02:00:41 PM
 	 * @param request

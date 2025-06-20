@@ -1049,16 +1049,19 @@ public class SkillMatrixWorker {
 
 			updateAssesmentStatus(session, request, SMConstant.ASSESSMENT_PASS);
 
+			SMAssessmetDTO slObj = smUtils.getDesiredLevelId(session, request);
+
 			SMAssessmetDTO certiObj = smUtils.getCertificateId(session, request);
 
 			if (certiObj == null) {
 				throw new EnovationException(SMConstant.CERTIFICATE_NOT_FOUND);
 			}
+			request.setWorkstationId(slObj.getWorkstationId());
+			request.setEmpId(slObj.getEmpId());
 			saveOJTCertification(session, request, certiObj);
 			emailData.setDbUploadPath(certiObj.getPath());
 			updateOjtRegiStatus(session, request, SMConstant.COMPLETED_STRING);
 
-			SMAssessmetDTO slObj = smUtils.getDesiredLevelId(session, request);
 
 			if (checkSMAlreadyExit(slObj, session)) {
 				LOGGER.info("employee update in Skill Matrix");
@@ -1068,18 +1071,20 @@ public class SkillMatrixWorker {
 			}
 
 			// Update skill levels for linked workstations only if assessment is passed
-			if (slObj.getSkillLevelId() > 0) {
-				List<com.greentin.enovation.model.skillMatrix.SMWorkstationMapping> linkedWorkstations = smUtils.findLinkedWorkstations(session, request.getWorkstationId());
-				if (!CollectionUtils.isEmpty(linkedWorkstations)) {
+				List<com.greentin.enovation.model.skillMatrix.SMWorkstationMapping> linkedWorkstations = smUtils.findLinkedWorkstations(session, slObj.getWorkstationId());
+				if (!linkedWorkstations.isEmpty()) {
 					LOGGER.info("Updating skill levels for {} linked workstations", linkedWorkstations.size());
 					for (SMWorkstationMapping mapping : linkedWorkstations) {
-						SMAssessmentDTO linkedSlObj = new SMAssessmentDTO();
-						linkedSlObj.setEmpId(request.getEmpId());
+						//Save certification for linked workstation
+						request.setWorkstationId(mapping.getChildWorkstation().getId());
+						request.setEmpId(slObj.getEmpId());
+						saveOJTCertification(session, request, certiObj);
+
+						//Save skill level assessment for linked workstation
+						SMAssessmetDTO linkedSlObj = new SMAssessmetDTO();
+						linkedSlObj.setEmpId(slObj.getEmpId());
 						linkedSlObj.setWorkstationId(mapping.getChildWorkstation().getId());
-						linkedSlObj.setSkillLvlId(slObj.getSkillLevelId());
-						linkedSlObj.setBranchId(request.getBranchId());
-						linkedSlObj.setDeptId(request.getDeptId());
-						linkedSlObj.setLineId(request.getLineId());
+						linkedSlObj.setDesiredSkillLevelId(slObj.getDesiredSkillLevelId());
 
 						// Check if skill matrix entry exists for the linked workstation
 						if (checkSMAlreadyExit(linkedSlObj, session)) {
@@ -1093,7 +1098,6 @@ public class SkillMatrixWorker {
 						}
 					}
 				}
-			}
 
 			sendEmailToOEAsessmentPass(mailList, emailData);
 			request.setAssessmentStatus(SMConstant.ASSESSMENT_PASS);
@@ -1205,6 +1209,8 @@ public class SkillMatrixWorker {
 		LOGGER.info("# SkillMatrixWorker || saveOJTCertification ");
 		SMOJTCertification cerObj = new SMOJTCertification();
 		cerObj.setOjtRegis(new SMOJTRegis(request.getOjtRegiId()));
+		cerObj.setSmWorkstations(new SMWorkstations(request.getWorkstationId()));
+		cerObj.setEmployeeDetails(new EmployeeDetails(request.getEmpId()));
 		cerObj.setCertificate(new SMMasterCertificate(certiObj.getCertificateId()));
 		session.save(cerObj);
 	}
@@ -2239,30 +2245,30 @@ public class SkillMatrixWorker {
 		return !CollectionUtils.isEmpty(tupleList);
 	}
 
-	private void updateSMEmpSkillMatrix(Session session, SMAssessmentDTO slObj) {
-		LOGGER.info("#In SkillMatrixWorker |  INSIDE in updateSMEmpSkillMatrix ");
-		session.createNativeQuery(
-						"update sm_emp_skill_matrix set skill_level_id=:skillLevelId where emp_id=:empId and workstation_id=:workstationId and branch_id=:branchId and dept_id=:deptId and line_id=:lineId")
-				.setParameter("skillLevelId", slObj.getSkillLvlId())
-				.setParameter("empId", slObj.getEmpId())
-				.setParameter("workstationId", slObj.getWorkstationId())
-				.setParameter("branchId", slObj.getBranchId())
-				.setParameter("deptId", slObj.getDeptId())
-				.setParameter("lineId", slObj.getLineId())
-				.executeUpdate();
-	}
-
-	private void addSMEmpSkillMatrix(Session session, SkillMatrixRequest request, SMAssessmentDTO slObj) {
-		LOGGER.info("#In SkillMatrixWorker |  INSIDE in addSMEmpSkillMatrix ");
-		session.createNativeQuery(
-						"insert into sm_emp_skill_matrix (emp_id,workstation_id,branch_id,dept_id,line_id,skill_level_id) values (:empId,:workstationId,:branchId,:deptId,:lineId,:skillLevelId)")
-				.setParameter("empId", slObj.getEmpId())
-				.setParameter("workstationId", slObj.getWorkstationId())
-				.setParameter("branchId", slObj.getBranchId())
-				.setParameter("deptId", slObj.getDeptId())
-				.setParameter("lineId", slObj.getLineId())
-				.setParameter("skillLevelId", slObj.getSkillLvlId())
-				.executeUpdate();
-	}
+//	private void updateSMEmpSkillMatrix(Session session, SMAssessmentDTO slObj) {
+//		LOGGER.info("#In SkillMatrixWorker |  INSIDE in updateSMEmpSkillMatrix ");
+//		session.createNativeQuery(
+//						"update sm_emp_skill_matrix set skill_level_id=:skillLevelId where emp_id=:empId and workstation_id=:workstationId and branch_id=:branchId and dept_id=:deptId and line_id=:lineId")
+//				.setParameter("skillLevelId", slObj.getSkillLvlId())
+//				.setParameter("empId", slObj.getEmpId())
+//				.setParameter("workstationId", slObj.getWorkstationId())
+//				.setParameter("branchId", slObj.getBranchId())
+//				.setParameter("deptId", slObj.getDeptId())
+//				.setParameter("lineId", slObj.getLineId())
+//				.executeUpdate();
+//	}
+//
+//	private void addSMEmpSkillMatrix(Session session, SkillMatrixRequest request, SMAssessmentDTO slObj) {
+//		LOGGER.info("#In SkillMatrixWorker |  INSIDE in addSMEmpSkillMatrix ");
+//		session.createNativeQuery(
+//						"insert into sm_emp_skill_matrix (emp_id,workstation_id,branch_id,dept_id,line_id,skill_level_id) values (:empId,:workstationId,:branchId,:deptId,:lineId,:skillLevelId)")
+//				.setParameter("empId", slObj.getEmpId())
+//				.setParameter("workstationId", slObj.getWorkstationId())
+//				.setParameter("branchId", slObj.getBranchId())
+//				.setParameter("deptId", slObj.getDeptId())
+//				.setParameter("lineId", slObj.getLineId())
+//				.setParameter("skillLevelId", slObj.getSkillLvlId())
+//				.executeUpdate();
+//	}
 
 }
