@@ -72,7 +72,6 @@ public class ColumnAscDescConstants {
 		CertificateColName.put("BranchName", " b.name ");
 		CertificateColName.put("DeptName", " d.dept_name ");
 		CertificateColName.put("Workstation", " w.workstation ");
-		CertificateColName.put("Status", "r.status ");
 		CertificateColName.put("LevelName", " l.level_name ");
 		CertificateColName.put("EmpName", " empName ");
 	}

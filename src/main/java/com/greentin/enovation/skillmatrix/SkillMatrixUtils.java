@@ -2482,7 +2482,7 @@ public class SkillMatrixUtils {
 	public List<com.greentin.enovation.model.skillMatrix.SMWorkstationMapping> findLinkedWorkstations(Session session, long workstationId) {
 		LOGGER.info("#In SkillMatrixUtils | Finding linked workstations for workstation: {}", workstationId);
 		List<SMWorkstationMapping> linkedWorkstations = session.createNativeQuery(
-						"SELECT * FROM sm_workstation_mapping WHERE source_workstation_id = :workstationId AND is_active = 1",
+						"SELECT * FROM sm_workstation_mapping WHERE parent_workstation_id = :workstationId AND is_active = 1",
 						SMWorkstationMapping.class)
 				.setParameter("workstationId", workstationId)
 				.getResultList();
