@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.greentin.enovation.model.EmployeeDetails;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,6 +33,14 @@ public class SMOJTCertification {
 	@ManyToOne
 	@JoinColumn(name = "ojt_regis_id")
 	private SMOJTRegis ojtRegis;
+
+	@ManyToOne
+	@JoinColumn(name = "emp_id")
+	private EmployeeDetails employeeDetails;
+
+	@ManyToOne
+	@JoinColumn(name = "workstation_id")
+	private SMWorkstations smWorkstations;
 
 	@ManyToOne
 	@JoinColumn(name = "certificate_id")
@@ -116,4 +125,20 @@ public class SMOJTCertification {
 		this.updatedBy = updatedBy;
 	}
 
+	public EmployeeDetails getEmployeeDetails() {
+		return employeeDetails;
+	}
+
+	public void setEmployeeDetails(EmployeeDetails employeeDetails) {
+		this.employeeDetails = employeeDetails;
+	}
+
+	public SMWorkstations getSmWorkstations() {
+		return smWorkstations;
+	}
+
+	public void setSmWorkstations(SMWorkstations smWorkstations) {
+		this.smWorkstations = smWorkstations;
+	}
 }
+

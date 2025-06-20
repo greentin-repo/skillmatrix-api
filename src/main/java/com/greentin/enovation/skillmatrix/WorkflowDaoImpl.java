@@ -1570,22 +1570,42 @@ public class WorkflowDaoImpl extends BaseRepository implements WorkflowIDao {
 		}
 		String path = EnovationConfig.buddyConfig.get("ProfilePicPathUrl");
 		StringBuilder sb = new StringBuilder(
-				"  Select c.id as certificateId,c.created_by as createdBy,c.created_date as createdDate,c.updated_by as updatedBy,dl.id as lineId,dl.name  as lineName,\r\n"
-						+ " c.updated_date as updatedDate,c.certificate_id as masterCerId ,c.ojt_regis_id as regId,r.status as status,o.org_id as orgId ,o.name as orgName , \r\n"
-						+ " mc.certificate_name as certificateName,concat('" + path
-						+ "', mc.certificate_path) as certificatePath,w.id as workstationId, w.workstation as workstationName,b.branch_id as branchId,b.name as branchName,\r\n"
-						+ " d.dept_id as deptId,d.dept_name as deptName,l.level_name as levelName,e.cmpy_emp_id as companyEmpId,r.emp_id as empId,concat(ifnull(e.first_name , ' '),' ',ifnull(e.last_name,' ')) as empName\r\n"
-						+ " from sm_ojt_certification c \r\n"
-						+ " left join sm_master_certificate mc on mc.id=c.certificate_id\r\n"
-						+ " left join sm_ojt_regis r on r.id =c.ojt_regis_id\r\n"
-						+ " left join tbl_employee_details e on e.emp_id=r.emp_id\r\n"
-						+ " left join sm_workstations w on w.id=r.workstation_id\r\n"
-						+ " left join master_branch b on b.branch_id=r.branch_id\r\n"
-						+ " left join master_department d on d.dept_id=r.dept_id\r\n"
-						+ " left join dwm_line dl on dl.id=r.line_id "
-						+ " left join sm_skill_level l on l.id=mc.skill_level_id\r\n"
-						+ " inner join master_organization o on o.org_id=b.org_id "
-						+ " where o.org_id=:orgId and r.status =:status ");
+				"SELECT " +
+						"  c.id AS certificateId, " +
+						"  c.created_by AS createdBy, " +
+						"  c.created_date AS createdDate, " +
+						"  c.updated_by AS updatedBy, " +
+						"  dl.id AS lineId, " +
+						"  dl.name AS lineName, " +
+						"  c.updated_date AS updatedDate, " +
+						"  c.certificate_id AS masterCerId, " +
+						"  c.ojt_regis_id AS regId, " +
+						"  'COMPLETED' AS status, " +
+						"  o.org_id AS orgId, " +
+						"  o.name AS orgName, " +
+						"  mc.certificate_name AS certificateName, " +
+						"  CONCAT('" + path + "', mc.certificate_path) AS certificatePath, " +
+						"  w.id AS workstationId, " +
+						"  w.workstation AS workstationName, " +
+						"  b.branch_id AS branchId, " +
+						"  b.name AS branchName, " +
+						"  d.dept_id AS deptId, " +
+						"  d.dept_name AS deptName, " +
+						"  l.level_name AS levelName, " +
+						"  e.cmpy_emp_id AS companyEmpId, " +
+						"  e.emp_id AS empId, " +
+						"  CONCAT(IFNULL(e.first_name, ' '), ' ', IFNULL(e.last_name, ' ')) AS empName " +
+						"FROM sm_ojt_certification c " +
+						"LEFT JOIN sm_master_certificate mc ON mc.id = c.certificate_id " +
+						"LEFT JOIN tbl_employee_details e ON e.emp_id = c.emp_id " +
+						"LEFT JOIN sm_workstations w ON w.id = c.workstation_id " +
+						"LEFT JOIN master_branch b ON b.branch_id = e.branch_id " +
+						"LEFT JOIN master_department d ON d.dept_id = e.dept_id " +
+						"LEFT JOIN dwm_line dl ON dl.id = e.line_id " +
+						"LEFT JOIN sm_skill_level l ON l.id = mc.skill_level_id " +
+						"INNER JOIN master_organization o ON o.org_id = b.org_id " +
+						"WHERE o.org_id = :orgId "
+		);
 
 		if (request.getBranchId() > 0) {
 			sb.append(" and  b.branch_id=:branchId");
@@ -1598,7 +1618,7 @@ public class WorkflowDaoImpl extends BaseRepository implements WorkflowIDao {
 			sb.append(" and w.id in (:workstationIds)");
 		}
 		if (request.getEmpId() > 0) {
-			sb.append(" and r.emp_id=:empId ");
+			sb.append(" and e.emp_id=:empId ");
 		}
 		if (request.getSearch() != null) {
 			sb.append(" and (w.workstation like '%{search}%' or d.dept_name like '%{search}%' or "
@@ -1615,7 +1635,7 @@ public class WorkflowDaoImpl extends BaseRepository implements WorkflowIDao {
 		String tmpQuery = sb.toString().replace("{search}", (String.valueOf(request.getSearch())));
 
 		TypedQuery<Tuple> query = session.createNativeQuery(tmpQuery, Tuple.class)
-				.setParameter("orgId", request.getOrgId()).setParameter("status", EnovationConstants.COMPLETED_STRING);
+				.setParameter("orgId", request.getOrgId());
 
 		if (request.getBranchId() > 0) {
 			query.setParameter("branchId", request.getBranchId());

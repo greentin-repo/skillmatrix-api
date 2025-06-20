@@ -3032,36 +3032,52 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 //	private List<HashMap<String, Object>> getPendingSkillmatrixList(int empId, Session session) {
 //		LOGGER.info("# Inside getPendingSkillmatrixList Dao - Emp ID -> " + empId);
 //		List<HashMap<String, Object>> list = new ArrayList<>();
-//		List<Tuple> tupleList = (List<Tuple>) session.createNativeQuery(
-//				"SELECT audit.id as auditId, " +
-//						"ed.emp_id as empId, " +
-//						"concat(ifnull(ed.first_name,''),' ',ifnull(ed.last_name,'')) as empName, " +
-//						"md.dept_name as department, " +
-//						"l.name as cell, " +
-//						"ws.workstation as workstation, " +
-//						"audit.skilling_id as skillingId, " +
-//						"ojtSkilling.ojt_regis_id as ojtRegisId, " +
-//						"audit.status as skillingStatus, " +
-//						"ojtSkilling.status as skillingTitle, " +
-//						"ojtCheckseet.day_no as skillingNumber, " +
-//						"mut.user_type as userType, " +
-//						"audit.stage_id as stageId " +
-//						"FROM sm_ojt_skilling_audit audit " +
-//						"INNER JOIN sm_ojt_skilling ojtSkilling ON ojtSkilling.id = audit.skilling_id " +
-//						"INNER JOIN sm_ojt_skilling_checksheet ojtCheckseet ON ojtCheckseet.id = audit.skilling_checksheet_id " +
-//						"INNER JOIN sm_ojt_regis regis ON regis.id = ojtSkilling.ojt_regis_id " +
-//						"INNER JOIN tbl_employee_details ed ON audit.emp_id = ed.emp_id " +
-//						"LEFT JOIN master_department md ON ed.dept_id = md.dept_id " +
-//						"LEFT JOIN dwm_line l ON ed.line_id = l.id " +
-//						"LEFT JOIN sm_workstations ws ON regis.workstation_id = ws.id " +
-//						"LEFT JOIN sm_user_type ut ON ed.emp_id = ut.emp_id AND ut.is_active = 1 " +
-//						"LEFT JOIN sm_master_user_type mut ON ut.user_type_id = mut.id " +
-//						"WHERE audit.emp_id = :empId AND audit.status = 'PENDING' " +
-//						"GROUP BY audit.id, ed.emp_id, ed.first_name, ed.last_name, md.dept_name, l.name, ws.workstation, " +
-//						"audit.skilling_id, ojtSkilling.ojt_regis_id, audit.status, ojtSkilling.status, ojtCheckseet.day_no",
-//				Tuple.class).setParameter("empId", empId).getResultList();
+//        String sb =
+//                "SELECT " +
+//                        "  ojtsa.id AS auditId, " +
+//                        "  ed.emp_id AS empId, " +
+//                        "  ed.cmpy_emp_id AS cmpy_emp_id, " +
+//                        "  CONCAT(IFNULL(ed.first_name, ''), ' ', IFNULL(ed.last_name, '')) AS empName, " +
+//                        "  md.dept_name AS department, " +
+//                        "  stage.id AS stageId, " +
+//                        "        CASE " +
+//                        "            WHEN stage.id IN (2,3) THEN 'Trainer' " +
+//                        "            WHEN stage.id = 4 THEN 'QA' " +
+//                        "            WHEN stage.id = 5 THEN 'TL' " +
+//                        "            ELSE stage.stage_name " +
+//                        "        END AS role, " +
+//                        "  slvl.level_name AS level, " +
+//                        "  CASE " +
+//                        "    WHEN sml.stage_label IS NULL THEN stage.stage_name " +
+//                        "    ELSE sml.stage_label " +
+//                        "  END AS activity, " +
+//                        "  l.name AS cell " +
+//                        "FROM sm_ojt_skilling_audit ojtsa " +
+//                        "LEFT JOIN sm_ojt_skilling_checksheet ojtsc ON ojtsc.id = ojtsa.skilling_checksheet_id " +
+//                        "LEFT JOIN sm_ojt_skilling ojts ON ojts.id = ojtsa.skilling_id " +
+//                        "INNER JOIN sm_ojt_regis ojtr ON ojtr.id = ojtsa.ojt_regis_id " +
+//                        "LEFT JOIN sm_checksheet smc ON smc.id = ojts.checksheet_id " +
+//                        "INNER JOIN master_branch mb ON mb.branch_id = ojtr.branch_id " +
+//                        "INNER JOIN master_department md ON md.dept_id = ojtr.dept_id " +
+//                        "LEFT JOIN sm_workstations smw ON smw.id = ojtr.workstation_id " +
+//                        "LEFT JOIN sm_stage stage ON stage.id = ojtsa.stage_id " +
+//                        "LEFT JOIN sm_skill_level slvl ON slvl.id = ojtr.desired_skill_level_id " +
+//                        "LEFT JOIN tbl_employee_details ed ON ed.emp_id = ojtr.emp_id " +
+//                        "LEFT JOIN sm_ojt_assessment smojta ON ojtr.id = smojta.ojt_regis_id AND ojts.id = smojta.skilling_id " +
+//                        "LEFT JOIN sm_stage_label sml ON sml.stage_id = stage.id AND sml.branch_id = ojtr.branch_id " +
+//                        "INNER JOIN dwm_line l ON l.id = ojtr.line_id " +
+//                        "LEFT JOIN sm_ojt_assessment smOJTAsses ON ojtr.id = smOJTAsses.ojt_regis_id " +
+//                        "LEFT JOIN sm_assessment sma ON smOJTAsses.assessment_id = sma.id " +
+//                        "WHERE ojtsa.emp_id = :empId AND ojtsa.status = 'PENDING' " +
+//                        "GROUP BY ojtsa.id " +
+//                        "ORDER BY ojtsa.id DESC";
 //
-//		if (CollectionUtils.isNotEmpty(tupleList)) {
+//        List<Tuple> tupleList = session.createNativeQuery(sb,Tuple.class)
+//                .setParameter("empId", empId)
+//                .getResultList();
+//
+//
+//        if (CollectionUtils.isNotEmpty(tupleList)) {
 //			LOGGER.info("# Skill matrix list is not empty - size --> " + tupleList.size());
 //			for (Tuple x : tupleList) {
 //				HashMap<String, Object> obj = new HashMap<String, Object>();
@@ -3091,52 +3107,47 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 		List<HashMap<String, Object>> resultList = new ArrayList<>();
 
 		String sql =
-				"SELECT * FROM ( " +
-						"    SELECT " +
-						"        audit.id AS auditId, " +
-						"        ed.emp_id AS empId, " +
-						"        ed.cmpy_emp_id AS cmpy_emp_id, " +
-						"        CONCAT(IFNULL(ed.first_name, ''), ' ', IFNULL(ed.last_name, '')) AS empName, " +
-						"        md.dept_name AS department, " +
-						"        l.name AS cell, " +
-						"        ws.workstation AS workstation, " +
-						"        audit.skilling_id AS skillingId, " +
-						"        ojtSkilling.ojt_regis_id AS ojtRegisId, " +
-						"        audit.status AS skillingStatus, " +
-						"        ojtSkilling.status AS skillingTitle, " +
-						"        ojtChecksheet.day_no AS skillingNumber, " +
-						"        mut.user_type AS userType, " +
-						"        audit.stage_id AS stageId, " +
-						"        skill_level.level_name AS level, " +
-						"		 stage_label.stage_label AS activity, " +
-						"        CASE " +
-						"            WHEN stage.stage_name = 'Stage 1' THEN 'OE' " +
-						"            WHEN stage.stage_name IN ('Stage 2', 'Stage2 verification') THEN 'Trainer' " +
-						"            WHEN stage.stage_name = 'Stage 3' THEN 'QA' " +
-						"            WHEN stage.stage_name = 'Stage 4' THEN 'TL' " +
-						"            WHEN stage.stage_name = 'Stage 5' THEN 'Assessment' " +
-						"            ELSE stage.stage_name " +
-						"        END AS role, " +
-						"        ROW_NUMBER() OVER ( " +
-						"            PARTITION BY ed.emp_id, audit.stage_id, audit.skilling_id, ojtSkilling.ojt_regis_id " +
-						"            ORDER BY audit.id DESC " +
-						"        ) AS rn " +
-						"    FROM sm_ojt_skilling_audit audit " +
-						"    INNER JOIN sm_ojt_skilling ojtSkilling ON ojtSkilling.id = audit.skilling_id " +
-						"    INNER JOIN sm_ojt_skilling_checksheet ojtChecksheet ON ojtChecksheet.id = audit.skilling_checksheet_id " +
-						"    INNER JOIN sm_ojt_regis regis ON regis.id = ojtSkilling.ojt_regis_id " +
-						"    INNER JOIN tbl_employee_details ed ON regis.emp_id = ed.emp_id " +
-						"    LEFT JOIN master_department md ON ed.dept_id = md.dept_id " +
-						"    LEFT JOIN dwm_line l ON ed.line_id = l.id " +
-						"    LEFT JOIN sm_workstations ws ON regis.workstation_id = ws.id " +
-						"    LEFT JOIN sm_user_type ut ON ed.emp_id = ut.emp_id AND ut.is_active = 1 " +
-						"    LEFT JOIN sm_master_user_type mut ON ut.user_type_id = mut.id " +
-						"    LEFT JOIN sm_stage stage ON stage.id = audit.stage_id " +
-						"    LEFT JOIN sm_skill_level skill_level ON skill_level.id = regis.desired_skill_level_id " +
-						"    LEFT JOIN sm_stage_label stage_label ON stage_label.id = audit.stage_id " +
-						"    WHERE audit.emp_id = :empId AND audit.status = 'PENDING' " +
-						") t " +
-						"WHERE t.rn = 1";
+                "SELECT " +
+                        "  ojtsa.id AS auditId, " +
+                        "  ed.emp_id AS empId, " +
+                        "  ed.cmpy_emp_id AS cmpy_emp_id, " +
+                        "  CONCAT(IFNULL(ed.first_name, ''), ' ', IFNULL(ed.last_name, '')) AS empName, " +
+                        "  md.dept_name AS department, " +
+                        "  smw.workstation AS workstation, " +
+                        "  stage.id AS stageId, " +
+                        "        CASE " +
+                        "            WHEN stage.id IN (2,3) THEN 'Trainer' " +
+                        "            WHEN stage.id = 4 THEN 'QA' " +
+                        "            WHEN stage.id = 5 THEN 'TL' " +
+                        "            ELSE stage.stage_name " +
+                        "        END AS role, " +
+                        "  slvl.level_name AS level, " +
+                        "  CASE " +
+                        "    WHEN sml.stage_label IS NULL THEN stage.stage_name " +
+                        "    ELSE sml.stage_label " +
+                        "  END AS activity, " +
+                        "  l.name AS cell, " +
+						"  ojtsa.skilling_id AS skillingId, " +
+						"  ojtsa.ojt_regis_id AS ojtRegisId " +
+						"FROM sm_ojt_skilling_audit ojtsa " +
+                        "LEFT JOIN sm_ojt_skilling_checksheet ojtsc ON ojtsc.id = ojtsa.skilling_checksheet_id " +
+                        "LEFT JOIN sm_ojt_skilling ojts ON ojts.id = ojtsa.skilling_id " +
+                        "INNER JOIN sm_ojt_regis ojtr ON ojtr.id = ojtsa.ojt_regis_id " +
+                        "LEFT JOIN sm_checksheet smc ON smc.id = ojts.checksheet_id " +
+                        "INNER JOIN master_branch mb ON mb.branch_id = ojtr.branch_id " +
+                        "INNER JOIN master_department md ON md.dept_id = ojtr.dept_id " +
+                        "LEFT JOIN sm_workstations smw ON smw.id = ojtr.workstation_id " +
+                        "LEFT JOIN sm_stage stage ON stage.id = ojtsa.stage_id " +
+                        "LEFT JOIN sm_skill_level slvl ON slvl.id = ojtr.desired_skill_level_id " +
+                        "LEFT JOIN tbl_employee_details ed ON ed.emp_id = ojtr.emp_id " +
+                        "LEFT JOIN sm_ojt_assessment smojta ON ojtr.id = smojta.ojt_regis_id AND ojts.id = smojta.skilling_id " +
+                        "LEFT JOIN sm_stage_label sml ON sml.stage_id = stage.id AND sml.branch_id = ojtr.branch_id " +
+                        "INNER JOIN dwm_line l ON l.id = ojtr.line_id " +
+                        "LEFT JOIN sm_ojt_assessment smOJTAsses ON ojtr.id = smOJTAsses.ojt_regis_id " +
+                        "LEFT JOIN sm_assessment sma ON smOJTAsses.assessment_id = sma.id " +
+                        "WHERE ojtsa.emp_id = :empId AND ojtsa.status = 'PENDING' AND ojtsa.stage_id IN (2,3,4,5)" +
+                        "GROUP BY ojtsa.ojt_regis_id,ojtsa.emp_id " +
+                        "ORDER BY ojtsa.id DESC";
 
 		List<Tuple> tuples = session.createNativeQuery(sql, Tuple.class)
 				.setParameter("empId", empId)
@@ -3152,16 +3163,12 @@ public class EmployeeDaoImple extends BaseRepository implements IEmployeeDao {
 				record.put("department", CommonUtils.objectToString(row.get("department")));
 				record.put("cell", CommonUtils.objectToString(row.get("cell")));
 				record.put("workstation", CommonUtils.objectToString(row.get("workstation")));
-				record.put("skillingId", CommonUtils.objectToInt(row.get("skillingId")));
-				record.put("ojtRegisId", CommonUtils.objectToInt(row.get("ojtRegisId")));
-				record.put("skillingStatus", CommonUtils.objectToString(row.get("skillingStatus")));
-				record.put("skillingTitle", CommonUtils.objectToString(row.get("skillingTitle")));
-				record.put("skillingNumber", CommonUtils.objectToString(row.get("skillingNumber")));
-				record.put("userType", CommonUtils.objectToString(row.get("userType")));
 				record.put("stageId", CommonUtils.objectToString(row.get("stageId")));
 				record.put("level", CommonUtils.objectToString(row.get("level")));
 				record.put("activity", CommonUtils.objectToString(row.get("activity")));
 				record.put("role", CommonUtils.objectToString(row.get("role")));
+				record.put("skillingId", CommonUtils.objectToInt(row.get("skillingId")));
+				record.put("ojtRegisId", CommonUtils.objectToInt(row.get("ojtRegisId")));
 				resultList.add(record);
 			}
 		} else {
